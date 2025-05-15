@@ -1,4 +1,4 @@
-/* Estilos comunes para todas las páginas */
+/* General Styles */
 :root {
   --primary: #3498db;
   --primary-dark: #2980b9;
@@ -32,6 +32,16 @@ body {
   object-fit: contain;
   width: 100%;
   height: 100%;
+}
+
+/* Navigation */
+.nav-link {
+  color: #495057;
+  transition: color 0.2s;
+}
+
+.nav-link:hover {
+  color: var(--primary);
 }
 
 /* Animations */
@@ -99,52 +109,22 @@ tr:hover .group-hover-opacity-100 {
   box-shadow: 0 0 0 2px var(--primary);
 }
 
-/* Toast Notifications */
-.toast-container {
-  z-index: 1050;
+/* Calendar Styles */
+.aspect-ratio-1x1 {
+  padding-top: 100%;
+  position: relative;
 }
 
-.toast {
-  background-color: white;
-  border: none;
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+.day-cell {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  bottom: 2px;
+  left: 2px;
 }
-
-.toast-header {
-  border-bottom: none;
-}
-
-.toast-header.bg-success {
-  background-color: var(--success) !important;
-}
-
-.toast-header.bg-danger {
-  background-color: var(--danger) !important;
-}
-
-.toast-header.text-white {
-  color: white !important;
-}
-
-.toast-body {
-  padding: 0.75rem;
-}
-
-/* style del index de la IA */
-/* Estilos específicos para la página de inicio */
-
-/* Navigation */
-/* .nav-link {
-  color: #495057;
-  transition: color 0.2s;
-} */
-
-/* .nav-link:hover {
-  color: var(--primary);
-} */
 
 /* Wave Divider */
-/* .wave-divider {
+.wave-divider {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -152,7 +132,7 @@ tr:hover .group-hover-opacity-100 {
   height: 50px;
   background-color: white;
   clip-path: polygon(0 100%, 100% 0, 100% 100%);
-} */
+}
 
 /* Service Icons */
 .service-icon {
@@ -193,89 +173,4 @@ tr:hover .group-hover-opacity-100 {
 
 .hover-shadow:hover {
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
-}
-
-
-/* style propio del index */
-/* .navbar-gradient {
-    background: linear-gradient(to right, #5EDDE4, #0C8A90);
-  } */
-
-.buttonEntrar{
-    border-radius: 10px;
-    background-image: linear-gradient(
-        150deg,
-        #3989CA,
-        #A6ACB1,
-    );
-    border: none;
-    padding: 8px 16px;
-    color: #fff;
-    cursor: pointer;
-    transition: background 0.3s ease, transform 0.2s ease;
-  }
-
-.buttonEntrar:hover{
-    transform: scale(1.05);
-    background-image: linear-gradient(150, #337ab7, #888d92);
-}
-
-
-.modal-content {
-  border-radius: 15px;
-  padding: 30px;
-  text-align: center;
-}
-
-.logo_circle{
-  width: 120px;
-  height: 120px;
-  border: 2px solid #00aaff;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 20px;
-}
-
-.logo_circle img{
-  width: 80px;
-  height: auto;
-}
-.form-control{
-  background-color: #e6f0fa;
-  border: none;
-  border-radius: 20px;
-  text-align: left;
-}
-/* .form-group{
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-} */
-.btn-primary{
-  background-color: #1da1f2;
-  border: none;
-  border-radius: 20px;
-  padding: 10px;
-  width: 100%;
-}
-.btn-primary:hover{
-  background-color: #0d8ae6;
-}
-.forgot-password, .register-link  {
-  font-size: 14px;
-  text-decoration: none;
-}
-.forgot-password a, .register-link a {
-  color: #1da1f2;
-  text-decoration: none;
-}
-.forgot-password a:hover, .register-link a:hover {
-  text-decoration: underline;
 }

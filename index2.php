@@ -1,3 +1,7 @@
+<?php 
+  session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -29,7 +33,7 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#inicioSection" style="color: #000000;">Inicio</a>
+                <a class="nav-link active" aria-current="page" href="index2.php" style="color: #000000;">Inicio</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#servicios" style="color: #000000;">Servicios</a>
@@ -40,15 +44,32 @@
               <li class="nav-item">
                 <a class="nav-link" href="#contacto" style="color: #000000;">Contacto</a>
               </li>
+              </ul> 
               
-              <!-- <li class="nav-item">
-                <a class="nav-link" href="#" style="color: #000000;">Inicio de sesión</a>
-              </li> -->
-              <li class="nav-item">
-                <a class="nav-link" href="#" style="color: #000000;">
+              <div class="d-flex align-items-center">
+                <?php if(isset($_SESSION['email'])):?>
+                  <div class="d-flex align-items-center">
+                    <!-- imagen de usuario por defecto y nombre -->
+                    <!-- <img src="<?php echo $_SESSION['image']; ?>" style="width: 40px; height: 40px; object-fit: cover;" alt="Foto" class="rounded-circle me-2"> -->
+                    <!-- <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                    <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                    </svg> -->
+                    <button class="btn btn-danger"><span class="Entrar" data-bs-toggle="modal" data-bs-target="#inicio">Salir</span></button></a>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor"
+                    class="bi bi-person-circle me-2" viewBox="0 0 16 16">
+                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                    <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                    </svg>
+                    <!-- <span class="me-3 fw-bold"><?php echo $_SESSION['email'];?></span> -->
+                    <!-- <a href="controlador/inicioSesion_Controlador.php" class="btn btn-outline-danger"></a> -->
+                  </div>
+                  <?php else:?>
+                    <a class="nav-link" href="#" style="color: #000000;">
                   <button class="btn btn-primary"><span class="Entrar" data-bs-toggle="modal" data-bs-target="#inicio">Iniciar Sesión</span></button></a>
-              </li>
-            </ul> 
+                    <?php endif; ?>
+              </div>
+            
           </div>
         </div>
       </nav>
@@ -58,7 +79,7 @@
 
     <main>
       <!-- Hero Section -->
-    <section id="inicioSection" class="bg-light-blue py-5">
+    <!-- <section id="inicioSection" class="bg-light-blue py-5">
       <div class="container">
         <div class="row align-items-center">
           <div class="col-md-6 mb-4 mb-md-0">
@@ -69,6 +90,42 @@
             </p>
             <div class="d-flex flex-column flex-sm-row gap-3">
               <a href="register.html" class="btn btn-primary rounded-pill px-4 py-2">Agendar Cita</a>
+              <a href="#servicios" class="btn btn-outline-primary rounded-pill px-4 py-2">Nuestros Servicios</a>
+            </div>
+          </div>
+          <div class="col-md-6 text-center">
+            <img src="img/logo.png" alt="Clínica Dental" class="img-fluid rounded" style="max-height: 400px;">
+          </div>
+        </div>
+      </div>
+      <div class="wave-divider"></div>
+    </section> -->
+    <section id="inicioSection" class="bg-light-blue py-5">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-md-6 mb-4 mb-md-0">
+            <h1 class="display-4 fw-bold mb-4">Sonrisas Saludables para Toda la Familia</h1>
+            <p class="fs-5 text-secondary mb-4">
+              En Clínica Dental Dra. Diana Noriega nos dedicamos a brindar atención odontológica de calidad con
+              tecnología avanzada y un equipo profesional comprometido con su salud bucal.
+            </p>
+
+            <div class="d-flex flex-column flex-sm-row gap-3">
+
+              <div class="d-flex align-items-center">
+                <?php if(isset($_SESSION['email'])):?>
+                  <div class="d-flex align-items-center">
+                  <a href="vista/agendarCita.html" class="btn btn-primary rounded-pill px-4 py-2">Agendar Cita</a>
+                    <!-- <?php header("Location: vista/agendarCita.html")?> -->
+                  </div>
+                  <?php else:?>
+                    <a class="nav-link" href="#" style="color: #000000;">
+                  <button class="btn btn-primary"><span class="Entrar" data-bs-toggle="modal" data-bs-target="#inicio">Iniciar Sesión</span></button></a>
+                  <!-- <a href="register.html" class="btn btn-primary rounded-pill px-4 py-2">Agendar Cita</a> -->
+                    <?php endif; ?>
+              </div>
+
+              <!-- <a href="register.html" class="btn btn-primary rounded-pill px-4 py-2">Agendar Cita</a> -->
               <a href="#servicios" class="btn btn-outline-primary rounded-pill px-4 py-2">Nuestros Servicios</a>
             </div>
           </div>
@@ -283,7 +340,7 @@
           atenderle con el mejor cuidado dental.
         </p>
         <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center">
-          <a href="#" class="btn btn-light text-primary rounded-pill px-4 py-2" data-bs-toggle="modal" data-bs-target="#inicio">Registrarse</a>
+          <a href="#" class="btn btn-light text-primary rounded-pill px-4 py-2" data-bs-toggle="modal" data-bs-target="#registro">Registrarse</a>
           <a href="#" class="btn btn-outline-light rounded-pill px-4 py-2" data-bs-toggle="modal" data-bs-target="#inicio">Iniciar Sesión</a>
         </div>
       </div>
@@ -411,7 +468,12 @@
                               </div>
                               <div class="mb-3 text-start">
                                 <label for="sexo" class="form-label">Sexo</label>
-                                <input type="text" class="form-control" name="sexo" id="sexo" placeholder="Ingrese su genero"  required>
+                                <!-- <input type="text" class="form-control" name="sexo" id="sexo" placeholder="Ingrese su genero"  required> -->
+                                <select name="sexo" id="sexo"class= "form-control" require>
+                                    <option value="" disabled selected></option>
+                                    <option value="opcion1">Masculino</option>
+                                    <option value="opcion2">Femenino</option>
+                                </select>
                             </div>
                             <div class="mb-3 text-start">
                                 <label for="telefono" class="form-label">Teléfono</label>

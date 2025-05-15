@@ -1,0 +1,177 @@
+/* General Styles */
+:root {
+    --primary: #3498db;
+    --primary-dark: #2980b9;
+    --primary-light: #a4c9e8;
+    --secondary: #2c3e50;
+    --success: #2ecc71;
+    --danger: #e74c3c;
+    --warning: #f39c12;
+    --light: #f8f9fa;
+    --dark: #343a40;
+  }
+  
+  body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+  }
+  
+  /* Background Colors */
+  .bg-light-blue {
+    background-color: rgba(164, 201, 232, 0.2);
+  }
+  
+  /* Logo Container */
+  .logo-container {
+    width: 40px;
+    height: 40px;
+    position: relative;
+  }
+  
+  .logo-container img {
+    object-fit: contain;
+    width: 100%;
+    height: 100%;
+  }
+  
+  /* Navigation */
+  .nav-link {
+    color: #495057;
+    transition: color 0.2s;
+  }
+  
+  .nav-link:hover {
+    color: var(--primary);
+  }
+  
+  /* Animations */
+  .fade-in-animation {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Utility Classes */
+  .cursor-pointer {
+    cursor: pointer;
+  }
+  
+  .transition-colors {
+    transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+  }
+  
+  .hover-bg-light:hover {
+    background-color: rgba(0, 0, 0, 0.03);
+  }
+  
+  .hover-bg-primary-light:hover {
+    background-color: rgba(52, 152, 219, 0.2);
+  }
+  
+  .hover-bg-danger-light:hover {
+    background-color: rgba(231, 76, 60, 0.2);
+  }
+  
+  .hover-border-primary-subtle:hover {
+    border-color: rgba(52, 152, 219, 0.5) !important;
+  }
+  
+  .opacity-10 {
+    opacity: 0.1;
+  }
+  
+  .group-hover-opacity-100 {
+    transition: opacity 0.2s;
+  }
+  
+  tr:hover .group-hover-opacity-100 {
+    opacity: 1 !important;
+  }
+  
+  .pointer-events-none {
+    pointer-events: none;
+  }
+  
+  .ring-2 {
+    box-shadow: 0 0 0 2px var(--primary);
+  }
+  
+  .ring-primary {
+    box-shadow: 0 0 0 2px var(--primary);
+  }
+  
+  /* Calendar Styles */
+  .aspect-ratio-1x1 {
+    padding-top: 100%;
+    position: relative;
+  }
+  
+  .day-cell {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    bottom: 2px;
+    left: 2px;
+  }
+  
+  /* Wave Divider */
+  .wave-divider {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    background-color: white;
+    clip-path: polygon(0 100%, 100% 0, 100% 100%);
+  }
+  
+  /* Service Icons */
+  .service-icon {
+    width: 64px;
+    height: 64px;
+    background-color: rgba(52, 152, 219, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .service-icon i {
+    font-size: 28px;
+    color: var(--primary);
+  }
+  
+  /* Contact Icons */
+  .contact-icon {
+    width: 48px;
+    height: 48px;
+    background-color: rgba(52, 152, 219, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .contact-icon i {
+    font-size: 24px;
+    color: var(--primary);
+  }
+  
+  /* Card Hover Effect */
+  .hover-shadow {
+    transition: box-shadow 0.3s;
+  }
+  
+  .hover-shadow:hover {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+  }
+  

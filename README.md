@@ -1,2 +1,0 @@
-# paginaWebOdontologia
-software developer
