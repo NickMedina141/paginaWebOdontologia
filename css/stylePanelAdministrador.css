@@ -1,4 +1,163 @@
-body{
+/* Estilos comunes para todas las páginas */
+:root {
+  --primary: #3498db;
+  --primary-dark: #2980b9;
+  --primary-light: #a4c9e8;
+  --secondary: #2c3e50;
+  --success: #2ecc71;
+  --danger: #e74c3c;
+  --warning: #f39c12;
+  --light: #f8f9fa;
+  --dark: #343a40;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+/* Background Colors */
+.bg-light-blue {
+  background-color: rgba(164, 201, 232, 0.2);
+}
+
+/* Logo Container */
+.logo-container {
+  width: 40px;
+  height: 40px;
+  position: relative;
+}
+
+.logo-container img {
+  object-fit: contain;
+  width: 100%;
+  height: 100%;
+}
+
+/* Animations */
+.fade-in-animation {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Utility Classes */
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.transition-colors {
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.hover-bg-light:hover {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.hover-bg-primary-light:hover {
+  background-color: rgba(52, 152, 219, 0.2);
+}
+
+.hover-bg-danger-light:hover {
+  background-color: rgba(231, 76, 60, 0.2);
+}
+
+.hover-border-primary-subtle:hover {
+  border-color: rgba(52, 152, 219, 0.5) !important;
+}
+
+.opacity-10 {
+  opacity: 0.1;
+}
+
+.group-hover-opacity-100 {
+  transition: opacity 0.2s;
+}
+
+tr:hover .group-hover-opacity-100 {
+  opacity: 1 !important;
+}
+
+.pointer-events-none {
+  pointer-events: none;
+}
+
+.ring-2 {
+  box-shadow: 0 0 0 2px var(--primary);
+}
+
+.ring-primary {
+  box-shadow: 0 0 0 2px var(--primary);
+}
+
+/* Toast Notifications */
+.toast-container {
+  z-index: 1050;
+}
+
+.toast {
+  background-color: white;
+  border: none;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.toast-header {
+  border-bottom: none;
+}
+
+.toast-header.bg-success {
+  background-color: var(--success) !important;
+}
+
+.toast-header.bg-danger {
+  background-color: var(--danger) !important;
+}
+
+.toast-header.text-white {
+  color: white !important;
+}
+
+.toast-body {
+  padding: 0.75rem;
+}
+
+/* Estilos específicos para el dashboard del administrador */
+.navbar-dark .navbar-nav .nav-link {
+  color: rgba(255, 255, 255, 0.8);
+  transition: color 0.2s;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover {
+  color: #ffffff;
+}
+
+.bg-white\/20 {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.card {
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+}
+
+.badge {
+  font-weight: 500;
+}
+
+
+/* body{
     background-color: #f2f8fc;
     font-family: "Segoe UI", sans-serif;
 }
@@ -46,4 +205,4 @@ body{
     color: #155724;
     border-radius: 10px;
     font-size: 0.9em;
-}
+} */

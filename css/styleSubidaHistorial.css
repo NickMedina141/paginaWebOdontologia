@@ -1,0 +1,265 @@
+/* Estilos comunes para todas las páginas */
+:root {
+  --primary: #3498db;
+  --primary-dark: #2980b9;
+  --primary-light: #a4c9e8;
+  --secondary: #2c3e50;
+  --success: #2ecc71;
+  --danger: #e74c3c;
+  --warning: #f39c12;
+  --light: #f8f9fa;
+  --dark: #343a40;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+/* Background Colors */
+.bg-light-blue {
+  background-color: rgba(164, 201, 232, 0.2);
+}
+
+/* Logo Container */
+.logo-container {
+  width: 40px;
+  height: 40px;
+  position: relative;
+}
+
+.logo-container img {
+  object-fit: contain;
+  width: 100%;
+  height: 100%;
+}
+
+/* Animations */
+.fade-in-animation {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Utility Classes */
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.transition-colors {
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.hover-bg-light:hover {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.hover-bg-primary-light:hover {
+  background-color: rgba(52, 152, 219, 0.2);
+}
+
+.hover-bg-danger-light:hover {
+  background-color: rgba(231, 76, 60, 0.2);
+}
+
+.hover-border-primary-subtle:hover {
+  border-color: rgba(52, 152, 219, 0.5) !important;
+}
+
+.opacity-10 {
+  opacity: 0.1;
+}
+
+.group-hover-opacity-100 {
+  transition: opacity 0.2s;
+}
+
+tr:hover .group-hover-opacity-100 {
+  opacity: 1 !important;
+}
+
+.pointer-events-none {
+  pointer-events: none;
+}
+
+.ring-2 {
+  box-shadow: 0 0 0 2px var(--primary);
+}
+
+.ring-primary {
+  box-shadow: 0 0 0 2px var(--primary);
+}
+
+/* Toast Notifications */
+.toast-container {
+  z-index: 1050;
+}
+
+.toast {
+  background-color: white;
+  border: none;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.toast-header {
+  border-bottom: none;
+}
+
+.toast-header.bg-success {
+  background-color: var(--success) !important;
+}
+
+.toast-header.bg-danger {
+  background-color: var(--danger) !important;
+}
+
+.toast-header.text-white {
+  color: white !important;
+}
+
+.toast-body {
+  padding: 0.75rem;
+}
+
+/* Estilos específicos para la página de agendas y citas */
+
+/* Efecto de elevación para las tarjetas */
+.card {
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+}
+
+/* Estilos para elementos de formulario al enfocar */
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
+}
+
+/* Estilos para botones primarios */
+.btn-primary {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-dark);
+  border-color: var(--primary-dark);
+}
+
+/* Estados de citas - Colores personalizados */
+.badge.estado-completada {
+  background-color: #8ecae6 !important; /* Azul claro pastel */
+  color: #1d3557 !important;
+}
+
+.badge.estado-pendiente {
+  background-color: #ffe8a3 !important; /* Amarillo claro pastel */
+  color: #8d6e00 !important;
+}
+
+.badge.bg-danger {
+  background-color: var(--danger) !important;
+}
+
+/* Hover effects para las filas de la tabla */
+tbody tr {
+  transition: background-color 0.2s;
+}
+
+tbody tr:hover {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+/* Estilos para las tarjetas de servicios */
+.service-card {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.service-card:hover {
+  border-color: var(--primary) !important;
+  background-color: rgba(52, 152, 219, 0.05);
+}
+
+.service-card.border-primary {
+  border-width: 2px !important;
+  box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.15);
+}
+
+/* Estilos para las opciones de fecha y hora */
+.date-option,
+.time-option {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.date-option:hover,
+.time-option:hover {
+  border-color: var(--primary) !important;
+  background-color: rgba(52, 152, 219, 0.05);
+}
+
+.date-option.border-primary,
+.time-option.border-primary {
+  border-width: 2px !important;
+  box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.15);
+}
+
+/* Ocultar acciones hasta que se haga hover */
+.action-buttons {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 0.2s linear;
+}
+
+tr:hover .action-buttons {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Estilos para notificaciones toast */
+.toast-header.bg-info {
+  background-color: #8ecae6 !important; /* Azul claro para notificaciones de éxito */
+}
+
+
+.modal-content {
+  border-radius: 15px;
+  padding: 30px;
+  text-align: center;
+}
+
+.logo_circle{
+  width: 120px;
+  height: 120px;
+  border: 2px solid #00aaff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+}
+
+.logo_circle img{
+  width: 80px;
+  height: auto;
+}
+.form-control{
+  background-color: #e6f0fa;
+  border: none;
+  border-radius: 20px;
+  text-align: left;
+}

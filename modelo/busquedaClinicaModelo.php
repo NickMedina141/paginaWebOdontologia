@@ -7,7 +7,8 @@ if (!isset($_GET['id'])) {
     exit;
 }
 
-include("conexion.php");
+// include("conexion.php");
+include_once("../php/conexion.php");
 $conn = new Conexion();
 $conexion = $conn->conectar();
 
@@ -17,7 +18,8 @@ $id = $_GET['id']; // Obtenemos el ID desde la URL
 $id = $conexion->real_escape_string($id);
 
 // $sql = "SELECT * FROM `pacientes` WHERE `cedula` = '$id'";
-$sql = "SELECT p.*, u.correo AS email  FROM pacientes p LEFT JOIN usuarios u ON p.cedula = u.cedula where p.cedula = '$id'";
+$sql = "SELECT p.*, u.correo AS email  FROM pacientes p LEFT JOIN usuarios u ON p.cedula where p.cedula = '$id'";
+$resultado = $conexion->query($sql);
 $resultado = $conexion->query($sql);
 
 // Verificamos si la consulta fue exitosa

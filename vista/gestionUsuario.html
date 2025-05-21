@@ -10,6 +10,8 @@
     <!-- <link rel="stylesheet" href="../css/common.css"> -->
     <!-- <link rel="stylesheet" href="../css/admin-gestion-usuarios.css"> -->
     <link rel="stylesheet" href="../css/styleGestionUsuario.css">
+    <link rel="icon" href="../img/logo-odontologia ICO.ico">
+
 </head>
 <style>
     #notification {
@@ -71,7 +73,7 @@
                                         id="documento" placeholder="Ingrese el número de documento">
                                 </div>
                                 <div class="col-sm-4 d-flex align-items-end">
-                                    <button type="submit"
+                                    <button type="submit" id="searchButton"
                                         class="btn btn-primary rounded-pill w-100 d-flex align-items-center justify-content-center">
                                         <i class="bi bi-search me-2"></i>
                                         Buscar
@@ -180,9 +182,24 @@
                                 <div id="editButtons" class="col-6">
                                     <div class="d-flex flex-column flex-sm-row gap-3">
                                         <div class="row">
-                                            <div class="col-6">
+                                            <!-- <div class="col-6">
                                                 <button id="confirmButton"
                                                     class="btn btn-primary rounded-pill">Confirmar</button>
+                                            </div> -->
+                                            <div class="col-6">
+                                                <button id="confirmButton"class="btn btn-primary rounded-pill">
+                                                Confirmar</button>     
+                                                    <!-- problemas -->
+                                                <form id="hiddenForm" action="../controlador/gestionUsuario_Controlador.php" method="post" style="display: none;">
+                                                    <input type="hidden" name="nombre" id="hiddenNombre">
+                                                    <input type="hidden" name="apellidos" id="hiddenApellidos">
+                                                    <input type="hidden" name="cedula" id="hiddenCedula">
+                                                    <input type="hidden" name="email" id="hiddenEmail">
+                                                    <input type="hidden" name="telefono" id="hiddenTelefono">
+                                                    <input type="hidden" name="sexo" id="hiddenSexo">
+                                                    <input type="hidden" name="edad" id="hiddenEdad">
+                                                    <input type="hidden" name="rol" id="hiddenRol">
+                                                </form>
                                             </div>
                                             <div class="col-6"> <button id="cancelButton"
                                                     class="btn btn-secondary rounded-pill">Cancelar</button>
@@ -205,6 +222,7 @@
   <script src="../model/user.js"></script>
   <script src="../controller/user-controller.js"></script> -->
     <script src="../js/gestionUsuario.js"></script>
+    <!-- <script src="../controlador/gestionUsuario_Controlador"></script> -->
 </body>
 
 </html>

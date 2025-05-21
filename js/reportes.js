@@ -31,6 +31,7 @@ const pageTitle = document.getElementById('pageTitle');
         { id: 12, name: "Diciembre" },
       ];
       
+      //revisar aca
       // Sample reports
       let reports = [
         {

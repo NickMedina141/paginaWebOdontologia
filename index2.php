@@ -413,7 +413,7 @@
                   <h4 class="fw-bold mb-3">Recuperar contraseña</h4>
                   <p>Ingresa su correo electrónico para recibir instrucciones de recuperación</p>
 
-                  <form action="index_Procesado.php" method="post">
+                  <form action="controlador/recuperarPassword_Controlador.php" method="post">
                       <div class="mb-3 text-start">
                           <label for="email" class="form-label">Correo electrónico</label>
                           <input type="email" class="form-control" name="email" id="email" placeholder="correoElectronico@gmail.com"  required>
