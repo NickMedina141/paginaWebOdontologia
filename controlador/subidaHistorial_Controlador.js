@@ -36,6 +36,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
     showNotification("Se cargo con exito los pacientes","success");
     data.forEach(paciente => {
+      // const fila = `
+      //   <tr>
+      //     <td>${paciente.cedula}</td>
+      //     <td>${paciente.nombres}</td>
+      //     <td>${paciente.apellidos}</td>
+      //     <td>${genero(paciente.sexo)}</td>
+      //     <td><span class= "badge text-bg-warning"> ${paciente.estado}</span></td>
+      //     <td class="text-end">
+      //     <button class="btn btn-sm btn-primary subir-btn" data-bs-toggle="modal" data-bs-target="#subidaHistorial" data-cedula="${paciente.cedula}">
+      //     Subir
+      //     </button>
+      //     </td>
+      //   </tr>
+      // `;
       const fila = `
         <tr>
           <td>${paciente.cedula}</td>
@@ -44,15 +58,19 @@ document.addEventListener("DOMContentLoaded", () => {
           <td>${genero(paciente.sexo)}</td>
           <td><span class= "badge text-bg-warning"> ${paciente.estado}</span></td>
           <td class="text-end">
-          <button class="btn btn-sm btn-primary subir-btn" data-bs-toggle="modal" data-bs-target="#subidaHistorial" data-cedula="${paciente.cedula}">
-          Subir
-          </button>
-          </td>
+          <a href="#" class="btn text-primary" data-bs-toggle="modal" data-bs-target="#subidaHistorial" data-cedula ="${paciente.cedula}">
+            <i class="bi bi-arrow-up-circle-fill"></i>
+          </a>
+          
+            </td>
         </tr>
       `;
       pacientesTableBody.innerHTML += fila;
     });
 
+    // <button class="btn btn-sm text-primary subir-btn" data-bs-toggle="modal" data-bs-target="#subidaHistorial" data-cedula="${paciente.cedula}">
+    //         <i class="bi bi-arrow-up-circle-fill"></i>
+    //         </button>
   })
   .catch(error => {
     console.log("Error al obtener los pacientes:",error);

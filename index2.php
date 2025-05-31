@@ -65,28 +65,6 @@
 
 
     <main>
-      <!-- Hero Section -->
-    <!-- <section id="inicioSection" class="bg-light-blue py-5">
-      <div class="container">
-        <div class="row align-items-center">
-          <div class="col-md-6 mb-4 mb-md-0">
-            <h1 class="display-4 fw-bold mb-4">Sonrisas Saludables para Toda la Familia</h1>
-            <p class="fs-5 text-secondary mb-4">
-              En Clínica Dental Dra. Diana Noriega nos dedicamos a brindar atención odontológica de calidad con
-              tecnología avanzada y un equipo profesional comprometido con su salud bucal.
-            </p>
-            <div class="d-flex flex-column flex-sm-row gap-3">
-              <a href="register.html" class="btn btn-primary rounded-pill px-4 py-2">Agendar Cita</a>
-              <a href="#servicios" class="btn btn-outline-primary rounded-pill px-4 py-2">Nuestros Servicios</a>
-            </div>
-          </div>
-          <div class="col-md-6 text-center">
-            <img src="img/logo.png" alt="Clínica Dental" class="img-fluid rounded" style="max-height: 400px;">
-          </div>
-        </div>
-      </div>
-      <div class="wave-divider"></div>
-    </section> -->
     <section id="inicioSection" class="bg-light-blue py-5">
       <div class="container">
         <div class="row align-items-center">
@@ -262,7 +240,7 @@
     </section>
 
     <!-- Contact Section -->
-    <section id="contacto" class="py-5">
+    <!-- <section id="contacto" class="py-5">
       <div class="container">
         <div class="text-center mb-5">
           <h2 class="display-5 fw-bold mb-3">Contáctenos</h2>
@@ -271,9 +249,12 @@
             contacto con nosotros.
           </p>
         </div>
+        
+      <div class="text-cente mb-4">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d986.9778083423166!2d-73.61163253044951!3d8.311619926501532!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e5d855d14a809c1%3A0x292a6a190f9066fd!2sFinca%20Report.!5e0!3m2!1ses-419!2sco!4v1748724539536!5m2!1ses-419!2sco" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
 
         <div class="row g-4">
-          <!-- Contact Card 1 -->
           <div class="col-md-4">
             <div class="card h-100 shadow-sm hover-shadow text-center">
               <div class="card-body p-4">
@@ -287,7 +268,6 @@
             </div>
           </div>
 
-          <!-- Contact Card 2 -->
           <div class="col-md-4">
             <div class="card h-100 shadow-sm hover-shadow text-center">
               <div class="card-body p-4">
@@ -301,7 +281,6 @@
             </div>
           </div>
 
-          <!-- Contact Card 3 -->
           <div class="col-md-4">
             <div class="card h-100 shadow-sm hover-shadow text-center">
               <div class="card-body p-4">
@@ -316,7 +295,73 @@
           </div>
         </div>
       </div>
+    </section> -->
+
+    <section id="contacto" class="py-5">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-md-6 mb-4 mb-md-0">
+        <div class="text-start">
+          <h2 class="display-5 fw-bold mb-3">Contáctenos</h2>
+          <p class="text-secondary mx-auto" style="max-width: 700px;">
+            Estamos aquí para responder a sus preguntas y programar su próxima cita. No dude en ponerse en
+            contacto con nosotros.
+          </p>
+        </div>
+      </div>
+      <div class="col-md-6">
+          <iframe class="mapa-estatico" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d986.9778083423166!2d-73.61163253044951!3d8.311619926501532!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e5d855d14a809c1%3A0x292a6a190f9066fd!2sFinca%20Report.!5e0!3m2!1ses-419!2sco!4v1748724539536!5m2!1ses-419!2sco" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+      </div>
+      <br>
+
+        <div class="row g-4">
+          <div class="col-md-4">
+            <div class="card h-100 shadow-sm hover-shadow text-center">
+              <div class="card-body p-4">
+                <div class="contact-icon mx-auto mb-3">
+                  <i class="bi bi-telephone"></i>
+                </div>
+                <h3 class="card-title fs-4 fw-semibold">Teléfono</h3>
+                <p class="card-text text-secondary mb-0">+57 123 456 7890</p>
+                <p class="card-text text-secondary">+57 098 765 4321</p>
+                <!-- <a href="https://wa.me/573001234567?text=Hola%20me%20gustaría%20agendar%20una%20cita" target="_blank">
+                    Contáctanos por WhatsApp
+                </a> -->
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card h-100 shadow-sm hover-shadow text-center">
+              <div class="card-body p-4">
+                <div class="contact-icon mx-auto mb-3">
+                  <i class="bi bi-geo-alt"></i>
+                </div>
+                <h3 class="card-title fs-4 fw-semibold">Dirección</h3>
+                <p class="card-text text-secondary mb-0">Calle 24 #3-05</p>
+                <p class="card-text text-secondary">Aguachica-Cesar, Colombia</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card h-100 shadow-sm hover-shadow text-center">
+              <div class="card-body p-4">
+                <div class="contact-icon mx-auto mb-3">
+                  <i class="bi bi-clock"></i>
+                </div>
+                <h3 class="card-title fs-4 fw-semibold">Horarios de atencion</h3>
+                <p class="card-text text-secondary mb-0">Lunes a Sabado: 8:00 AM - 12:00 PM <br> 2:00 PM - 5:00 PM</p>
+                <!-- <p class="card-text text-secondary mb-0">Lunes a Viernes: 8:00 AM - 12:00 PM | 2:00 PM - 5:00 PM</p> -->
+                <!-- <p class="card-text text-secondary">Sábados: 8:00 AM - 12:00 PM | 2:00 PM - 5:00 PM</p> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
+
 
     <!-- CTA Section -->
     <section class="py-5 bg-primary text-white">
@@ -557,7 +602,7 @@
     </div>
 
     <!-- Footer -->
-  <footer class="bg-dark text-white py-4">
+  <!-- <footer class="bg-dark text-white py-4">
     <div class="container">
       <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
         <div class="d-flex align-items-center mb-3 mb-md-0">
@@ -566,12 +611,51 @@
           </div>
           <span class="fs-4 fw-bold">Clínica Dental</span>
         </div>
-        <div class="text-center text-md-end">
+
+
+        <div class="mb-2">
           <p class="mb-0">&copy; <script>document.write(new Date().getFullYear())</script> Clínica Dental Dra. Diana Noriega. Todos los derechos reservados.</p>
         </div>
+
+      <div class="redes mt-2">
+        <a href="https://www.instagram.com/dra.diananoriega" target="_blank" class="d-flex align-items-center text-decoration-none">
+          <i class="bi bi-instagram me-2 instagram-icon"></i>
+          <span class="text-white fw-semibold">Instagram</span>
+        </a>
+      </div>
       </div>
     </div>
-  </footer>
+  </footer> -->
+  <!-- Footer -->
+<footer class="bg-dark text-white py-4">
+  <div class="container">
+    <div class="d-flex flex-column align-items-center text-center">
+
+      <!-- Logo y nombre -->
+      <div class="d-flex align-items-center mb-3">
+        <div class="logo-container me-2">
+          <img src="img/logo.png" alt="Dra. Diana Noriega Logo" class="img-fluid" style="max-height: 50px;">
+        </div>
+        <span class="fs-4 fw-bold">Clínica Dental</span>
+      </div>
+
+      <!-- Derechos -->
+      <p class="mb-2">
+        &copy; <script>document.write(new Date().getFullYear())</script> Clínica Dental Dra. Diana Noriega. Todos los derechos reservados.
+      </p>
+
+      <!-- Redes sociales debajo -->
+      <div class="redes mt-2">
+        <a href="https://www.instagram.com/dra.diananoriega" target="_blank" class="d-flex align-items-center justify-content-center text-decoration-none">
+          <i class="bi bi-instagram me-2 instagram-icon"></i>
+          <span class="text-white fw-semibold">Instagram</span>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</footer>
+
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

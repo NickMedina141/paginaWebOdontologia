@@ -2,10 +2,10 @@ document.addEventListener("DOMContentLoaded", () =>{
   const urlParams = new URLSearchParams(window.location.search);
   const cedula = urlParams.get("cedula");
   document.getElementById("cedulaOculta").value = cedula;
-
   if(cedula){
     obtenerHistorial(cedula);
   }
+
 
 });
 
@@ -30,6 +30,7 @@ async function obtenerHistorial(cedula) {
 
     const nombre = `${historial.nombres} ${historial.apellidos}`;
     document.getElementById("patientName").textContent = nombre;
+    showNotification("Datos del paciente cargados correctamente","success");
 
   } catch (error){
     console.error("Error al obtener el historial del paciente:",error);

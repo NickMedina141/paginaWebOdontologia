@@ -14,7 +14,7 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
     $historial = new Historial();
 
     if($historial->actualizarDatosPaciente($cedula,$tratamientos,$medicamentos,$padecimientos,$alergias,$antecedentes)){
-        header("Location: ../vista/adminBusquedaClinica.html");
+        header("Location: ../vista/adminHistorialClinico.html?cedula=$cedula");
         exit;
     }
 

@@ -146,22 +146,25 @@ function cargarCitasDisponibles(idPaciente) {
     });
 }
 
-
+citaSeleccionada = null;
 async function SubirProcedimientos(){
+  if(citaSeleccionada == null || citaSeleccionada == undefined){
+    showToast("Error", "Debe seleccionar una cita")
+  }
   const descripcion = document.getElementById('descripcion').value.trim();
   const cita = citaSeleccionada;
   const cedula = getPatientIdFromURL();
-
+  if (!descripcion || !citaSeleccionada) {
+      showToast('Error', 'Debe seleccionar una cita y escribir una descripción', true);
+      return;
+    }
   console.log("estamos en SubirProcedimientos");
   console.log('Cedula:', cedula);
   // console.log('Cita seleccionada:', citaSeleccionada ? citaSeleccionada.value : 'Ninguna');
   console.log('Cita seleccionada:', cita);
   console.log('Descripción:', descripcion);
 
-  if (!descripcion || !citaSeleccionada) {
-    showToast('Error', 'Debe seleccionar una cita y escribir una descripción', true);
-    return;
-  }
+  
 
   const data = {
     accion: "agregarProcedimiento",
