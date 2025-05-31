@@ -7,6 +7,8 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
   <link rel="stylesheet" href="../css/styleHistorialClinico.css">
+  <link rel="icon" href="../img/logo-odontologia ICO.ico">
+
 </head>
 <body>
   <div class="toast-container position-fixed top-0 end-0 p-3">
@@ -40,43 +42,46 @@
         <div class="card bg-light-blue mx-auto" style="max-width: 768px;">
           <div class="card-body p-4">
             <div class="mb-3">
-              <h2 class="fs-5 fw-semibold">Paciente: <span id="patientName">Carlos Rodríguez</span></h2>
+              <h2 class="fs-5 fw-semibold">Paciente: <span id="patientName"></span></h2>
             </div>
 
-            <form id="clinicalForm">
+            <form id="clinicalForm" method="post" action="../controlador/adminHistorialClinico_Controlador.php">
+              
+              <input type="hidden" name="cedula" value="" id="cedulaOculta">
+
               <div class="mb-3">
                 <label for="tratamientos" class="form-label small fw-medium">Tratamientos</label>
-                <input type="text" class="form-control bg-white border-primary-subtle" id="tratamientos" 
+                <input type="text" class="form-control bg-white border-primary-subtle" name="tratamientos" id="tratamientos" 
                   placeholder="Ej: Limpieza dental, Blanqueamiento, Ortodoncia">
               </div>
 
               <div class="mb-3">
                 <label for="medicamentos" class="form-label small fw-medium">Medicamentos</label>
-                <input type="text" class="form-control bg-white border-primary-subtle" id="medicamentos" 
+                <input type="text" class="form-control bg-white border-primary-subtle" name="medicamentos" id="medicamentos" 
                   placeholder="Ej: Ibuprofeno 400mg, Amoxicilina 500mg">
               </div>
 
               <div class="mb-3">
                 <label for="padecimientos" class="form-label small fw-medium">Padecimientos</label>
-                <input type="text" class="form-control bg-white border-primary-subtle" id="padecimientos" 
+                <input type="text" class="form-control bg-white border-primary-subtle" name="padecimientos" id="padecimientos" 
                   placeholder="Ej: Sensibilidad dental, Bruxismo">
               </div>
 
               <div class="mb-3">
                 <label for="alergias" class="form-label small fw-medium">Alergias</label>
-                <input type="text" class="form-control bg-white border-primary-subtle" id="alergias" 
+                <input type="text" class="form-control bg-white border-primary-subtle" name ="alergias" id="alergias" 
                   placeholder="Ej: Penicilina, Látex">
               </div>
 
               <div class="mb-3">
                 <label for="antecedentes" class="form-label small fw-medium">Antecedentes médicos</label>
-                <input type="text" class="form-control bg-white border-primary-subtle" id="antecedentes" 
+                <input type="text" class="form-control bg-white border-primary-subtle" name = "antecedentes" id="antecedentes" 
                   placeholder="Ej: Hipertensión, Diabetes">
               </div>
 
               <div class="d-flex flex-column flex-sm-row gap-3 pt-3">
                 <button type="submit" class="btn btn-primary rounded-pill flex-grow-1">Confirmar</button>
-                <a href="admin-busqueda-clinica.html" class="btn btn-secondary rounded-pill flex-grow-1">Cancelar</a>
+                <a href="../vista/adminBusquedaClinica.html" class="btn btn-secondary rounded-pill flex-grow-1">Cancelar</a>
               </div>
             </form>
           </div>
@@ -85,12 +90,11 @@
     </main>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="../modelo/clinicaHistorialClinico.js"></script>
   <script src="../controlador/adminHistorialClinico_Controlador.js"></script>
-  <script>
+  <!-- <script>
     document.addEventListener("DOMContentLoaded", function() {
       const clinicalRecordController = new ClinicalRecordController();
     });
-  </script>
+  </script> -->
 </body>
 </html>

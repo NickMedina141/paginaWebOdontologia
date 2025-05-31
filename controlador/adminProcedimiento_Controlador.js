@@ -1,290 +1,396 @@
-// Import Procedure model
-import { Procedure } from "../models/Procedure.js"
-
-// Controller for procedures
-class ProcedureController {
-  constructor() {
-    // Initialize event listeners
-    this.initEventListeners()
+document.addEventListener('DOMContentLoaded', function() {
+  const patientId = getPatientIdFromURL();
+  if (!patientId) {
+    showToast('Error', 'No se encontró el paciente en la URL', true);
+    return;
   }
 
-  initEventListeners() {
-    const addProcedimientoBtn = document.getElementById("addProcedimientoBtn")
-    const confirmAddBtn = document.getElementById("confirmAddBtn")
-    const cancelAddBtn = document.getElementById("cancelAddBtn")
-    const confirmEditBtn = document.getElementById("confirmEditBtn")
-    const cancelEditBtn = document.getElementById("cancelEditBtn")
+  let citaSeleccionada = null;
+  cargarProcedimientos(patientId);
 
-    if (addProcedimientoBtn) {
-      addProcedimientoBtn.addEventListener("click", () => this.showAddForm())
-    }
+  document.getElementById('addProcedimientoBtn').addEventListener('click', function() {
+    document.getElementById('procedimientosListView').style.display = 'none';
+    document.getElementById('addProcedimientoForm').style.display = 'block';
+    cargarCitasDisponibles(patientId);
+  });
 
-    if (confirmAddBtn) {
-      confirmAddBtn.addEventListener("click", () => this.addProcedure())
-    }
+  document.getElementById('cancelAddBtn').addEventListener('click', function() {
+    document.getElementById('addProcedimientoForm').style.display = 'none';
+    document.getElementById('procedimientosListView').style.display = 'block';
+  });
 
-    if (cancelAddBtn) {
-      cancelAddBtn.addEventListener("click", () => this.cancelAdd())
-    }
+  document.getElementById('confirmAddBtn').addEventListener('click', function () {
+    const descripcion = document.getElementById('descripcion').value.trim();
+    const citaSeleccionada = document.querySelector('input[name="citaSeleccionada"]:checked');
+    SubirProcedimientos();
 
-    if (confirmEditBtn) {
-      confirmEditBtn.addEventListener("click", () => this.updateProcedure())
-    }
+    // if (!descripcion || !citaSeleccionada) {
+    //   showToast('Error', 'Debe seleccionar una cita y escribir una descripción', true);
+    //   return;
+    // }
 
-    if (cancelEditBtn) {
-      cancelEditBtn.addEventListener("click", () => this.cancelEdit())
-    }
+    // const idCita = citaSeleccionada.value;
 
-    // Load patient data
-    this.loadPatientData()
+    // fetch('../modelo/adminProcedimientoModelo.php', {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify({
+    //     accion: 'agregarProcedimiento',
+    //     id_cita: idCita,
+    //     descripcion
+    //   })
+    // })
+    //   .then(response => response.json())
+    //   .then(data => {
+    //     if (data.exito) {
+    //       showToast('Éxito', 'Procedimiento registrado correctamente');
+    //       document.getElementById('addProcedimientoForm').style.display = 'none';
+    //       document.getElementById('procedimientosListView').style.display = 'block';
+    //       cargarProcedimientos(patientId);
+    //     } else {
+    //       showToast('Error', data.mensaje || 'No se pudo registrar el procedimiento', true);
+    //     }
+    //   })
+    //   .catch(error => {
+    //     console.error('Error al agregar procedimiento:', error);
+    //     showToast('Error', 'Error de conexión con el servidor', true);
+    //   });
+  });
+});
 
-    // Render procedures
-    this.renderProcedures()
 
-    // Render citas
-    this.renderCitas()
-  }
-
-  loadPatientData() {
-    const patientNameEl = document.getElementById("patientName")
-
-    // Get patient data from localStorage
-    const patientData = localStorage.getItem("selectedPatient")
-    if (patientData && patientNameEl) {
-      const patient = JSON.parse(patientData)
-      patientNameEl.textContent = `${patient.nombre} ${patient.apellidos}`
-    }
-  }
-
-  showAddForm() {
-    const procedimientosListView = document.getElementById("procedimientosListView")
-    const addProcedimientoForm = document.getElementById("addProcedimientoForm")
-    const editProcedimientoForm = document.getElementById("editProcedimientoForm")
-
-    procedimientosListView.style.display = "none"
-    addProcedimientoForm.style.display = "block"
-    editProcedimientoForm.style.display = "none"
-
-    this.selectedCita = null
-    document.getElementById("descripcion").value = ""
-  }
-
-  cancelAdd() {
-    const procedimientosListView = document.getElementById("procedimientosListView")
-    const addProcedimientoForm = document.getElementById("addProcedimientoForm")
-
-    procedimientosListView.style.display = "block"
-    addProcedimientoForm.style.display = "none"
-  }
-
-  addProcedure() {
-    const descripcion = document.getElementById("descripcion").value.trim()
-
-    if (!this.selectedCita || !descripcion) {
-      this.showNotification("Por favor seleccione una cita y escriba una descripción", "error")
-      return
-    }
-
-    // Add new procedimiento
-    const newProcedimiento = {
-      id: Date.now(),
-      id_cita: this.selectedCita,
-      descripcion: descripcion,
-    }
-
-    Procedure.add(newProcedimiento)
-
-    // Switch back to list view
-    const procedimientosListView = document.getElementById("procedimientosListView")
-    const addProcedimientoForm = document.getElementById("addProcedimientoForm")
-
-    procedimientosListView.style.display = "block"
-    addProcedimientoForm.style.display = "none"
-
-    // Update the table
-    this.renderProcedures()
-
-    this.showNotification("Procedimiento agregado correctamente", "success")
-  }
-
-  showEditForm(id) {
-    const procedure = Procedure.getById(id)
-
-    if (procedure) {
-      this.editingId = id
-
-      const procedimientosListView = document.getElementById("procedimientosListView")
-      const addProcedimientoForm = document.getElementById("addProcedimientoForm")
-      const editProcedimientoForm = document.getElementById("editProcedimientoForm")
-
-      document.getElementById("editDescripcion").value = procedure.descripcion
-
-      procedimientosListView.style.display = "none"
-      addProcedimientoForm.style.display = "none"
-      editProcedimientoForm.style.display = "block"
-    }
-  }
-
-  cancelEdit() {
-    const procedimientosListView = document.getElementById("procedimientosListView")
-    const editProcedimientoForm = document.getElementById("editProcedimientoForm")
-
-    procedimientosListView.style.display = "block"
-    editProcedimientoForm.style.display = "none"
-  }
-
-  updateProcedure() {
-    const descripcion = document.getElementById("editDescripcion").value.trim()
-
-    if (!descripcion) {
-      this.showNotification("La descripción no puede estar vacía", "error")
-      return
-    }
-
-    // Update procedimiento
-    Procedure.update(this.editingId, { descripcion })
-
-    // Switch back to list view
-    const procedimientosListView = document.getElementById("procedimientosListView")
-    const editProcedimientoForm = document.getElementById("editProcedimientoForm")
-
-    procedimientosListView.style.display = "block"
-    editProcedimientoForm.style.display = "none"
-
-    // Update the table
-    this.renderProcedures()
-
-    this.showNotification("Procedimiento actualizado correctamente", "success")
-  }
-
-  deleteProcedure(id) {
-    Procedure.delete(id)
-    this.renderProcedures()
-    this.showNotification("Procedimiento eliminado correctamente", "success")
-  }
-
-  renderProcedures() {
-    const procedimientosTableBody = document.getElementById("procedimientosTableBody")
-    if (!procedimientosTableBody) return
-
-    procedimientosTableBody.innerHTML = ""
-
-    const procedures = Procedure.getAll()
-
-    procedures.forEach((procedimiento) => {
-      const row = document.createElement("tr")
-      row.className = "border-top border-light-subtle hover-bg-light"
-
-      row.innerHTML = `
-        <td class="py-2">${procedimiento.id_cita}</td>
-        <td class="py-2">${procedimiento.descripcion}</td>
-        <td class="py-2 text-end">
-          <div class="d-flex justify-content-end gap-2 opacity-0 group-hover-opacity-100">
-            <button class="btn btn-sm btn-link text-primary edit-btn" data-id="${procedimiento.id}">
-              <i class="bi bi-pencil"></i>
-            </button>
-            <button class="btn btn-sm btn-link text-danger delete-btn" data-id="${procedimiento.id}">
-              <i class="bi bi-trash"></i>
-            </button>
-          </div>
-        </td>
-      `
-
-      procedimientosTableBody.appendChild(row)
+function cargarCitasDisponibles(idPaciente) {
+  fetch('../modelo/adminProcedimientoModelo.php', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      accion: 'obtenerCitas',
+      id_paciente: idPaciente
     })
+  })
+    .then(response => response.json())
+    .then(data => {
+      const container = document.getElementById('citasContainer');
+      container.innerHTML = '';
 
-    // Add event listeners to edit and delete buttons
-    document.querySelectorAll(".edit-btn").forEach((btn) => {
-      btn.addEventListener("click", (e) => {
-        const id = Number.parseInt(e.currentTarget.getAttribute("data-id"))
-        this.showEditForm(id)
-      })
-    })
+      if (data && data.length > 0) {
+        data.forEach(cita => {
+          // const div = document.createElement('div');
+          const estadoLabel = cita.estado == 1 ? 
+          '<span class="badge bg-success">Completada</span>' :
+          '<span class="badge bg-warning text-dark">Pendiente</span>';
 
-    document.querySelectorAll(".delete-btn").forEach((btn) => {
-      btn.addEventListener("click", (e) => {
-        const id = Number.parseInt(e.currentTarget.getAttribute("data-id"))
-        this.deleteProcedure(id)
-      })
-    })
-  }
+          const mensaje = cita.estado == 1 ?
+          '':
+          '<p class="text-danger">Solo citas completadas</p>';
+          const deshabilitado = cita.estado == 1 ? '' : 'disabled';
 
-  renderCitas() {
-    const citasContainer = document.getElementById("citasContainer")
-    if (!citasContainer) return
 
-    citasContainer.innerHTML = ""
+          const div = document.createElement('div');
+          div.className = 'col-12';
 
-    // Sample citas - updated to only use "Programada" and "Pendiente" statuses
-    const sampleCitas = [
-      { id: "C004", servicio: "Blanqueamiento dental", fecha: "2023-05-15", estado: "Programada" },
-      { id: "C005", servicio: "Revisión de ortodoncia", fecha: "2023-05-28", estado: "Pendiente" },
-      { id: "C006", servicio: "Extracción dental", fecha: "2023-06-10", estado: "Pendiente" },
-    ]
-
-    sampleCitas.forEach((cita) => {
-      const col = document.createElement("div")
-      col.className = "col-12"
-
-      const isDisabled = cita.estado !== "Programada"
-      const isSelected = this.selectedCita === cita.id
-
-      col.innerHTML = `
-        <div class="card ${isDisabled ? "opacity-50" : isSelected ? "border-primary bg-primary bg-opacity-10" : "border-light-subtle hover-border-primary-subtle"} 
-             cursor-pointer transition-colors" data-id="${cita.id}" ${isDisabled ? 'data-disabled="true"' : ""}>
-          <div class="card-body p-3">
+          // div.innerHTML = `
+          //   <div class="border rounded p-3 mb-2 ${deshabilitado ? 'bg-light' : ''}">
+          //   <div class="d-flex justify-content-between">
+          //   <strong>C00${cita.id_cita}</strong>
+          //   ${estadoLabel}
+          //   </div>
+          //   <div>${cita.servicio}</div>
+          //   <div class="text-muted">${cita.fecha}</div>
+          //   ${mensaje}
+          //   <div class="form-check mt-2">
+          //   <input class="form-check-input" type="radio" name="citaSeleccionada" id="cita${cita.id_cita}" value="${cita.id_cita}" ${deshabilitado}>
+          //   <label class="form-check-label" for="cita${cita.id_cita}">
+          //   Seleccionar
+          //   </label>
+          //   </div>
+          // </div>
+          //   `;
+          div.innerHTML = `
+          <div class="seleccionable-cita ${deshabilitado}" data-id="${cita.id_cita}">
+            <div class="border rounded p-3 mb-2 ${deshabilitado ? 'bg-light' : ''}">
             <div class="d-flex justify-content-between">
-              <span class="fw-medium">${cita.id}</span>
-              <span class="badge ${cita.estado === "Programada" ? "bg-primary" : "bg-warning text-dark"} rounded-pill">
-                ${cita.estado}
-              </span>
+            <strong>C00${cita.id_cita}</strong>
+            ${estadoLabel}
             </div>
-            <div class="small text-secondary mt-1">${cita.servicio}</div>
-            <div class="small text-muted mt-1">${cita.fecha}</div>
-            ${isDisabled ? '<div class="small text-danger mt-1 fst-italic">Solo citas programadas</div>' : ""}
+            <div>${cita.servicio}</div>
+            <div class="text-muted">${cita.fecha}</div>
+            ${mensaje}
+            </div>
           </div>
-        </div>
-      `
+            `;
 
-      citasContainer.appendChild(col)
+          container.appendChild(div);
+        });
+        document.querySelectorAll('.seleccionable-cita').forEach(card => {
+        if (!card.classList.contains('disabled')) {
+            card.addEventListener('click', () => {
+            // Desmarcar todas
+            document.querySelectorAll('.seleccionable-cita').forEach(c => c.classList.remove('selected'));
+            // Marcar esta
+            card.classList.add('selected');
+            // Guardar ID
+            citaSeleccionada = card.dataset.id;
+            console.log('Cita seleccionada:', citaSeleccionada);
 
-      // Add click event to selectable citas
-      if (!isDisabled) {
-        const card = col.querySelector(".card")
-        card.addEventListener("click", () => {
-          this.selectedCita = cita.id
-
-          // Update UI to show selection
-          document.querySelectorAll("#citasContainer .card").forEach((c) => {
-            c.classList.remove("border-primary", "bg-primary", "bg-opacity-10")
-            c.classList.add("border-light-subtle")
-          })
-
-          card.classList.remove("border-light-subtle")
-          card.classList.add("border-primary", "bg-primary", "bg-opacity-10")
-        })
+            });
+          }
+        });
+      } else {
+        container.innerHTML = `<p class="text-muted">No hay citas disponibles para este paciente.</p>`;
       }
     })
+    .catch(error => {
+      console.error('Error al cargar citas disponibles:', error);
+      showToast('Error', 'No se pudieron obtener las citas disponibles', true);
+    });
+}
+
+
+async function SubirProcedimientos(){
+  const descripcion = document.getElementById('descripcion').value.trim();
+  const cita = citaSeleccionada;
+  const cedula = getPatientIdFromURL();
+
+  console.log("estamos en SubirProcedimientos");
+  console.log('Cedula:', cedula);
+  // console.log('Cita seleccionada:', citaSeleccionada ? citaSeleccionada.value : 'Ninguna');
+  console.log('Cita seleccionada:', cita);
+  console.log('Descripción:', descripcion);
+
+  if (!descripcion || !citaSeleccionada) {
+    showToast('Error', 'Debe seleccionar una cita y escribir una descripción', true);
+    return;
   }
 
-  showNotification(message, type) {
-    const toastEl = document.getElementById("notificationToast")
-    const toast = new bootstrap.Toast(toastEl)
-    const toastHeader = document.getElementById("toastHeader")
-    const toastTitle = document.getElementById("toastTitle")
-    const toastMessage = document.getElementById("toastMessage")
+  const data = {
+    accion: "agregarProcedimiento",
+    paciente_cedula: cedula,
+    id_cita: citaSeleccionada,
+    descripcion: descripcion
+  };
 
-    if (type === "success") {
-      toastTitle.textContent = "Éxito"
-      toastHeader.classList.remove("bg-danger", "text-white")
-      toastHeader.classList.add("bg-success", "text-white")
-    } else {
-      toastTitle.textContent = "Error"
-      toastHeader.classList.remove("bg-success", "text-white")
-      toastHeader.classList.add("bg-danger", "text-white")
+  console.log("Datos a enviar:", JSON.stringify(data));
+  try{
+    const respuesta = await fetch('../modelo/adminProcedimientoModelo.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+
+    const resultado = await respuesta.json();
+    if(resultado.success){
+      showToast('Éxito', 'Procedimiento agregado correctamente');
+      //redireccionar a la vista de adminProcedimiento.html
+      window.location.href = `../vista/adminProcedimientos.html?cedula=${cedula}`;
     }
-
-    toastMessage.textContent = message
-    toast.show()
+    else{
+      console.error('Error al agregar procedimiento:', resultado.mensaje);
+      showToast('Error', resultado.mensaje || 'No se pudo agregar el procedimiento', true);
+    }
+  } catch (error) {
+    console.error('Error al agregar procedimiento:', error);
+    showToast('Error', 'Ocurrió un error al conectar con el servidor', true);
   }
 }
+
+
+function getPatientIdFromURL() {
+  const params = new URLSearchParams(window.location.search);
+  // return params.get('id');
+  console.log('cedula:', params.get('cedula'));
+    return params.get('cedula');
+}
+function cargarProcedimientos(idPaciente) {
+  fetch('../modelo/adminProcedimientoModelo.php', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      accion: 'obtenerProcedimientos',
+      paciente_cedula: idPaciente
+    })
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log('Datos recibidos:', data);
+    // if (data.exito) {
+    //   renderizarProcedimientos(data.procedimientos);
+    // } 
+    if (data && data.length > 0) {
+      renderizarProcedimientos(data);
+    } 
+     else {
+      showToast('Error', data.mensaje || 'No se pudieron obtener los procedimientos', true);
+    }
+  })
+  .catch(error => {
+    console.error('Error al cargar procedimientos:', error);
+    showToast('Error', 'Ocurrió un error al conectar con el servidor', true);
+  });
+}
+
+// let ProcedimientosGlobales = null;
+let idProcedimientoGlobal = null;
+function renderizarProcedimientos(procedimientos) {
+  console.log('Procedimientos a renderizar:', procedimientos);
+  const tbody = document.getElementById('procedimientosTableBody');
+  tbody.innerHTML = '';
+
+  if (procedimientos.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="3" class="text-center">No hay procedimientos registrados.</td></tr>`;
+    return;
+  }
+
+  document.getElementById("patientName").innerHTML = `${procedimientos[0].nombre_paciente}`;
+
+  procedimientos.forEach(proc => {
+    const tr = document.createElement('tr');
+    // tr.innerHTML = `
+    //   <td>C${proc.id_cita}</td>
+    //   <td>${proc.descripcion}</td>
+    //   <td class="text-end">
+    //     <button class="btn btn-sm btn-outline-primary me-2" data-id="${proc.id_procedimiento}" data-descripcion = "${proc.descripcion}" onclick="editarProcedimiento(${proc.id_procedimiento},${proc.descripcion})">
+    //       <i class="bi bi-pencil"></i>
+    //     </button>
+    //     <button class="btn btn-sm btn-outline-danger" data-id="${proc.id_procedimiento}"  onclick="eliminarProcedimiento(${proc.id_procedimiento})">
+    //       <i class="bi bi-trash"></i>
+    //     </button>
+    //   </td>
+    // `;
+    tr.innerHTML = `
+  <td>C${proc.id_cita}</td>
+  <td>${proc.descripcion}</td>
+  <td class="text-end">
+    <button class="btn btn-sm btn-outline-primary me-2"
+      data-id="${proc.id_procedimiento}"
+      data-descripcion="${proc.descripcion.replace(/"/g, '&quot;')}"
+      onclick="editarProcedimiento(this)">
+      <i class="bi bi-pencil"></i>
+    </button>
+    <button class="btn btn-sm btn-outline-danger"
+      onclick="eliminarProcedimiento(${proc.id_procedimiento})">
+      <i class="bi bi-trash"></i>
+    </button>
+  </td>
+`;
+    tbody.appendChild(tr);
+  });
+}
+
+function showToast(titulo, mensaje, isError = false) {
+  const toastHeader = document.getElementById('toastHeader');
+  toastHeader.classList.toggle('bg-danger', isError);
+  toastHeader.classList.toggle('bg-primary', !isError);
+
+  document.getElementById('toastTitle').textContent = titulo;
+  document.getElementById('toastMessage').textContent = mensaje;
+
+  const toastElement = document.getElementById('notificationToast');
+  const toast = new bootstrap.Toast(toastElement);
+  toast.show();
+}
+
+
+
+
+
+// Placeholder functions for editar y eliminar, para que no haya error en consola
+function editarProcedimiento(buttonElement) {
+  const id = buttonElement.getAttribute('data-id');
+  idProcedimientoGlobal = id; // Guardar el ID del procedimiento globalmente
+  const descripcion = buttonElement.getAttribute('data-descripcion');
+  console.log('Editar procedimiento con id_procedimiento:', id);
+  console.log('Descripción:', descripcion);
+
+  // const procedimiento = procedimientosGlobales.find(p => p.id_procedimiento === id);
+  // if (!procedimiento) {
+  //   showToast('Error', 'Procedimiento no encontrado', true);
+  //   return;
+  // }
+
+  // Ocultar la lista de procedimientos
+  document.getElementById('procedimientosListView').style.display = 'none';
+
+  // Mostrar el formulario de edición
+  document.getElementById('editProcedimientoForm').style.display = 'block';
+
+  document.getElementById("editDescripcion").value = ''; 
+  document.getElementById("editDescripcion").value = descripcion;
+
+}
+
+function eliminarProcedimiento(id) {
+  console.log('Eliminar procedimiento con id_procedimiento:', id);
+  if (confirm('¿Estás seguro de que deseas eliminar este procedimiento?')) {
+    fetch('../modelo/adminProcedimientoModelo.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        accion: 'eliminarProcedimiento',
+        id_procedimiento: id
+      })
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.exito) {
+          showToast('Éxito', 'Procedimiento eliminado correctamente');
+          // cargarProcedimientos(getPatientIdFromURL());
+          // window.location.href = `../vista/adminProcedimientos.html?cedula=${cedula}`; // Redirigir a la lista de procedimientos
+          renderizarProcedimientos(data.procedimientos); // Actualizar la lista de procedimientos
+        } else {
+          showToast('Error', data.mensaje || 'No se pudo eliminar el procedimiento', true);
+        }
+      })
+      .catch(error => {
+        console.error('Error al eliminar procedimiento:', error);
+        showToast('Error', 'Error de conexión con el servidor', true);
+      });
+  }
+}
+
+document.getElementById('confirmEditBtn').addEventListener('click', () => {
+  const id = idProcedimientoGlobal;
+  const nuevaDescripcion = document.getElementById('editDescripcion').value.trim();
+
+  console.log('ID:', id);
+console.log('Descripción:', nuevaDescripcion);
+  if (!nuevaDescripcion) {
+    showToast('Error', 'La descripción no puede estar vacía', true);
+    return;
+  }
+  fetch('../modelo/adminProcedimientoModelo.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      accion: 'editarProcedimiento',
+      id_procedimiento: id,
+      descripcion: nuevaDescripcion
+    })
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        showToast('Éxito', 'Procedimiento actualizado correctamente');
+        // Regresar a la vista de lista
+        document.getElementById('editProcedimientoForm').style.display = 'none';
+        document.getElementById('procedimientosListView').style.display = 'block';
+        cargarProcedimientos(getPatientIdFromURL());
+      } else {
+        showToast('Error', data.mensaje || 'No se pudo actualizar', true);
+      }
+    })
+    .catch(err => {
+      console.error('Error al editar procedimiento:', err);
+      showToast('Error', 'Error de conexión con el servidor', true);
+    });
+});
+
+document.getElementById('cancelEditBtn').addEventListener('click', () => {
+  // Ocultar el formulario de edición
+  document.getElementById('editProcedimientoForm').style.display = 'none';
+
+  // Mostrar la vista de lista de procedimientos
+  document.getElementById('procedimientosListView').style.display = 'block';
+});

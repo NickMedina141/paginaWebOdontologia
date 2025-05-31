@@ -1,11 +1,14 @@
-// para cargar los datos del administrador
+// para cargar los datos del odontologo
 document.addEventListener("DOMContentLoaded", () => {
-  fetch("../modelo/panelAdministradorModelo.php", {
+    const params = new URLSearchParams(window.location.search);
+    const cedula = params.get("cedula");
+    console.log("cedula del odontologo:", cedula);
+    fetch("../modelo/panelOdontologoModelo.php", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({ accion: "obtenerInformacionAdministrador" })
+    body: JSON.stringify({ accion: "obtenerInformacionOdontologo", cedula: cedula })
   })
   .then(response => response.json())
   .then(data => {
@@ -16,18 +19,17 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    showNotification("Se cargo con exito la informacion del administrador","success");
+    showNotification("Se cargo con exito la informacion del odontologo","success");
     document.getElementById("userNombre").textContent = data.nombre;
     document.getElementById("userApellidos").textContent = data.apellido;
     document.getElementById("userCedula").textContent = data.cedula;
     document.getElementById("userTelefono").textContent = data.telefono;
     document.getElementById("userRol").textContent = data.rol;
 
-
   })
   .catch(error => {
-    console.log("Error al obtener los datos del administrador:",error);
-    showNotification("Error al cargar al administrador.","error");
+    console.log("Error al obtener los datos del odontologo:",error);
+    showNotification("Error al cargar al odontologo.","error");
   });
 
 
@@ -55,67 +57,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   cargarCitasRecientes();
 });
-
-// function cargarCitasRecientes() {
-//   fetch("../modelo/panelAdministradorModelo.php", {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json"
-//     },
-//     body: JSON.stringify({ accion: "obtenerCitas" })
-//   })
-//   .then(res => res.json())
-//   .then(data => {
-//     console.log("Citas recientes:", data);
-
-//     const tablaBody = document.getElementById("tablaCitasRecientes");
-
-//     if (!tablaBody) return;
-
-//     tablaBody.innerHTML = "";
-
-//     if (data.length === 0) {
-//       tablaBody.innerHTML = "<tr><td colspan='4' class='text-center text-muted'>No hay citas recientes.</td></tr>";
-//       return;
-//     }
-
-//     data.forEach(cita => {
-//       const fila = document.createElement("tr");
-
-//       fila.innerHTML = `
-//         <td>${cita.servicio}</td>
-//         <td>${formatearFechaBonita(cita.fecha)}</td>
-//         <td>${formatearHora(cita.hora_inicio)} - ${formatearHora(cita.hora_fin)}</td>
-//         <td>${cita.estado}</td>
-//       `;
-
-//       tablaBody.appendChild(fila);
-//     });
-//   })
-//   .catch(err => {
-//     console.error("Error al cargar citas recientes:", err);
-//     showNotification("Error al cargar citas recientes.", "error");
-//   });
-// }
-
-// function formatearFechaBonita(fechaISO) {
-//   const fecha = new Date(fechaISO);
-//   return fecha.toLocaleDateString("es-CO", {
-//     year: "numeric",
-//     month: "long",
-//     day: "numeric"
-//   });
-// }
-
-// function formatearHora(hora) {
-//   const [h, m, s] = hora.split(":");
-//   let horas = parseInt(h, 10);
-//   const ampm = horas >= 12 ? 'PM' : 'AM';
-//   horas = horas % 12 || 12;
-//   return `${horas}:${m} ${ampm}`;
-// }
-
-
 
 // Funciones comunes para todas las páginas
 

@@ -82,6 +82,14 @@ if(updateButton){
 
         // Mostrar los datos del usuario
         showNotification("Usuario encontrado");
+        editUserInfo.style.display = "none";
+
+      // viewUserInfo.style.display="none";
+      // cancelButton.style.display= "none";
+      // confirmButton.style.display = "none";
+      // deleteButton.style.display = "none";
+      // editUserInfo.style.display="block";
+
         viewNombre.textContent = userData.nombre;
         viewApellidos.textContent= userData.apellidos;
         viewCedula.textContent = userData.cedula;
@@ -91,10 +99,14 @@ if(updateButton){
         viewEdad.textContent = mostrarEdad(userData.edad);
         viewRol.textContent = userData.rol;
         viewUserInfo.style.display="block";
+        updateButton.style.display = "block";
+        
       } else {
         showNotification("No se encontró un usuario con ese documento");
         // viewUserInfo.style.display="none";r
         viewUserInfo.style.display="none";
+        userInfoSection.style.display = "none"; // bloquea que la persona pueda ver
+        updateButton.style.display = "none";
         // return
       }
     });
@@ -117,45 +129,47 @@ document.addEventListener("DOMContentLoaded", ()=> {
 
   if(confirmButton){
     confirmButton.addEventListener("click", async (e)=>{
+      e.preventDefault();
+      // editUserInfo.style.display = "block"
+      // viewUserInfo.style.display="block";
+      // cancelButton.style.display= "block";
+      // confirmButton.style.display = "block";
+      // deleteButton.style.display = "block";
       console.log("Felicidades llego al boton confirmar");
       
-      document.getElementById("hiddenNombre").value = userData.nombres;
-      document.getElementById("hiddenApellidos").value = document.getElementById("editNombre").value;
-      document.getElementById("hiddenCedula").value = document.getElementById("editApellidos").value;;
-      document.getElementById("hiddenEmail").value = document.getElementById("editEmail").value;;
-      document.getElementById("hiddenTelefono").value = document.getElementById("editTelefono").value;;
-      document.getElementById("hiddenSexo").value = document.getElementById("editSexo").value;
-      document.getElementById("hiddenEdad").value = document.getElementById("editEdad").value;
-      document.getElementById("hiddenRol").value = document.getElementById("editRol").value;
-      document.getElementById("hiddenForm").submit();
+      let cedulaActual = userData.cedula;
+      const datos  = {
+        nombre: document.getElementById("editNombre").value.trim(),
+        apellidos: document.getElementById("editApellidos").value.trim(),
+        cedula: document.getElementById("editCedula").value.trim(),
+        cedula_original: cedulaActual.trim(),
+        email: document.getElementById("editEmail").value.trim(),
+        telefono: document.getElementById("editTelefono").value.trim(),
+        sexo: convertirSexo(document.getElementById("editSexo").value),
+        edad: document.getElementById("editEdad").value,
+        rol: document.getElementById("editRol").value,
+      };
+
+      try{
+        const respuesta =  await fetch("../php/json_paciente.php",{
+          method: "POST", headers: {"Content-Type": "application/json"},
+          body: JSON.stringify(datos)
+        });
+
+        const resultado = await respuesta.json();
+        if(resultado.success){
+          showNotification("Datos actualizados correctamente");
+          // location.href = "../vista/gestionUsuario.html";
+          location.reload();
+        }else {
+          console.error("Error en la respuesta del servidor:",resultado);
+          showNotification("Error al actualizar"+resultado.message);
+        }
+      } catch (error){
+        console.error("Error en la peticion del fetch:",error);
+          showNotification("Error de conexion");
+      }
     });
-//     document.getElementById('confirmButton').addEventListener('click', function (e) {
-//     e.preventDefault();  // para evitar comportamiento por defecto y probar
-
-//     document.getElementById('hiddenNombre').value = document.getElementById('editNombre').value;
-//     document.getElementById('hiddenApellidos').value = document.getElementById('editApellidos').value;
-//     document.getElementById('hiddenCedula').value = document.getElementById('editCedula').value;
-//     document.getElementById('hiddenEmail').value = document.getElementById('editEmail').value;
-//     document.getElementById('hiddenTelefono').value = document.getElementById('editTelefono').value;
-//     document.getElementById('hiddenSexo').value = document.getElementById('editSexo').value;
-//     document.getElementById('hiddenEdad').value = document.getElementById('editEdad').value;
-//     document.getElementById('hiddenRol').value = document.getElementById('editRol').value;
-
-//     console.log('Formulario preparado para enviar: ', {
-//       nombre: document.getElementById('hiddenNombre').value,
-//       apellidos: document.getElementById('hiddenApellidos').value,
-//       cedula: document.getElementById('hiddenCedula').value,
-//       email: document.getElementById('hiddenEmail').value,
-//       telefono: document.getElementById('hiddenTelefono').value,
-//       sexo: document.getElementById('hiddenSexo').value,
-//       edad: document.getElementById('hiddenEdad').value,
-//       rol: document.getElementById('hiddenRol').value
-//     });
-
-//     // Quita el preventDefault para enviar
-//     // this.form.submit(); // si confirmButton está dentro del form, si no, usa:
-//     document.getElementById('hiddenForm').submit();
-// });
   }
 });
 
@@ -223,9 +237,19 @@ function showNotification(message) {
   }
   function Sexo(numero){
     if(numero==1)
-      return "Masculino";
+      return "masculino";
     if(numero == 0)
-      return "Femenino";
+      return "femenino";
+    else
+    return "Helicoptero Apache";
+
+  }
+
+  function convertirSexo(sexo){
+    if(sexo=="masculino")
+      return 1;
+    if(sexo=="femenino")
+      return 0;
     else
     return "Helicoptero Apache";
 

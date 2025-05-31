@@ -21,8 +21,8 @@ function enviarCorreo($correo) {
     $mail->isSMTP();
     $mail->Host = 'smtp.gmail.com'; // Usa tu SMTP
     $mail->SMTPAuth = true;
-    $mail->Username = 'nbohorquezm@unicesar.edu.co';
-    $mail->Password = '';
+    $mail->Username = 'bohorquezmedinicolassuares@gmail.com';
+    $mail->Password = 'omtswvwikdnzyyom';
     $mail->SMTPSecure = 'tls';
     $mail->Port = 105;
 

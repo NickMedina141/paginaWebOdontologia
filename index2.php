@@ -13,14 +13,6 @@
     <link rel="stylesheet" href="css/styleIndex.css">
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 
-
-
-<!-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"> -->
-<!-- jQuery primero, luego Popper.js, luego Bootstrap JS -->
-<!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</head> -->
 <body>
     <header class="cabeza">
         <!-- Inicio del navbar -->
@@ -47,22 +39,17 @@
               </ul> 
               
               <div class="d-flex align-items-center">
-                <?php if(isset($_SESSION['email'])):?>
+                <?php if(isset($_SESSION['email']) && isset($_SESSION['cedula'])): ?>
+                
                   <div class="d-flex align-items-center">
-                    <!-- imagen de usuario por defecto y nombre -->
-                    <!-- <img src="<?php echo $_SESSION['image']; ?>" style="width: 40px; height: 40px; object-fit: cover;" alt="Foto" class="rounded-circle me-2"> -->
-                    <!-- <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
-                    <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
-                    </svg> -->
+                    <a href="vista/panelPaciente.html?cedula=<?php echo $_SESSION['cedula']; ?>"><button class="btn btn-outline-primary rounded-pill px-4 py-2"><span>Entrar</span></button></a>
                     <button class="btn btn-danger"><span class="Entrar" data-bs-toggle="modal" data-bs-target="#inicio">Salir</span></button></a>
                     <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor"
                     class="bi bi-person-circle me-2" viewBox="0 0 16 16">
                     <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
                     <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
                     </svg>
-                    <!-- <span class="me-3 fw-bold"><?php echo $_SESSION['email'];?></span> -->
-                    <!-- <a href="controlador/inicioSesion_Controlador.php" class="btn btn-outline-danger"></a> -->
+
                   </div>
                   <?php else:?>
                     <a class="nav-link" href="#" style="color: #000000;">
@@ -368,7 +355,24 @@
                             <h4 class="fw-bold mb-3">Inicio de sesión</h4>
                             <p>Inicia sesión con tu usuario de <strong>Consultorio Diana</strong></p>
 
-                            <form action="controlador/inicioSesion_Controlador.php" method="post">
+                            <!-- <form action="controlador/inicioSesion_Controlador.php" method="post">
+                                <div class="mb-3 text-start">
+                                    <label for="email" class="form-label">Correo electrónico</label>
+                                    <input type="email" class="form-control" name="email" id="email" placeholder="correoElectronico@gmail.com"  required>
+                                </div>
+                                <div class="mb-3 text-start">
+                                    <label for="password" class="form-label">Password</label>
+                                    <input type="password" class="form-control" name="password" id="password" placeholder="Ingrese su contraseña" required>
+                                </div>
+
+                                <div class="forgot-password mb-3 text-end">
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#recuperarContraseña">¿Se le olvido la contraseña?</a>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">Inicio de sesión</button>
+
+                            </form> -->
+                            <form id="formLogin" action="controlador/inicioSesion_Controlador.php" method="post">
                                 <div class="mb-3 text-start">
                                     <label for="email" class="form-label">Correo electrónico</label>
                                     <input type="email" class="form-control" name="email" id="email" placeholder="correoElectronico@gmail.com"  required>
@@ -413,7 +417,14 @@
                   <h4 class="fw-bold mb-3">Recuperar contraseña</h4>
                   <p>Ingresa su correo electrónico para recibir instrucciones de recuperación</p>
 
-                  <form action="controlador/recuperarPassword_Controlador.php" method="post">
+                  <!-- <form action="controlador/recuperarPassword_Controlador.php" method="post">
+                      <div class="mb-3 text-start">
+                          <label for="email" class="form-label">Correo electrónico</label>
+                          <input type="email" class="form-control" name="email" id="email" placeholder="correoElectronico@gmail.com"  required>
+                      </div>
+                      <button type="submit" class="btn btn-primary">Enviar</button>
+                  </form> -->
+                  <form id="formRecuperar" action="controlador/recuperarPassword_Controlador.php" method="post">
                       <div class="mb-3 text-start">
                           <label for="email" class="form-label">Correo electrónico</label>
                           <input type="email" class="form-control" name="email" id="email" placeholder="correoElectronico@gmail.com"  required>
@@ -449,7 +460,47 @@
                             <h4 class="fw-bold mb-3">Registro</h4>
                             <p>Crea tu cuenta llenando estos datos</p>
 
-                            <form action="controlador/paciente_Controlador.php" method="post">
+                            <!-- <form action="controlador/paciente_Controlador.php" method="post">
+                                <div class="mb-3 text-start">
+                                    <label for="nombre" class="form-label">Nombre</label>
+                                    <input type="text" class="form-control" name="nombre" id="nombre" placeholder="Ingrese tu nombre"  required>
+                                </div>
+                                <div class="mb-3 text-start">
+                                    <label for="apellidos" class="form-label">Apellidos</label>
+                                    <input type="text" class="form-control" name="apellidos" id="apellidos" placeholder="Ingrese sus apellidos" required>
+                                </div>
+                                <div class="mb-3 text-start">
+                                  <label for="cedula" class="form-label">Cedula</label>
+                                  <input type="number" class="form-control" name="cedula" id="cedula" maxlength="10" placeholder="Ingrese su cedula"  required>
+                              </div>
+                              <div class="mb-3 text-start">
+                                  <label for="email" class="form-label">Email</label>
+                                  <input type="email" class="form-control" name="email" id="email" placeholder="correoElectronico@gmail.com" required>
+                              </div>
+                              <div class="mb-3 text-start">
+                                <label for="sexo" class="form-label">Sexo</label>
+                                <select name="sexo" id="sexo"class= "form-control" require>
+                                    <option value="" disabled selected></option>
+                                    <option value="opcion1">Masculino</option>
+                                    <option value="opcion2">Femenino</option>
+                                </select>
+                            </div>
+                            <div class="mb-3 text-start">
+                                <label for="telefono" class="form-label">Teléfono</label>
+                                <input type="number" class="form-control" name="telefono" id="telefono" maxlength="10" placeholder="Ingrese su teléfono" required>
+                            </div>
+                            <div class="mb-3 text-start">
+                                <label for="edad" class="form-label">Edad</label>
+                                <input type="datetime-local" class="form-control" name="date" id="date"  placeholder="Ingrese su fecha" required>
+                            </div>
+                            <div class="mb-3 text-start">
+                              <label for="password" class="form-label">Password</label>
+                              <input type="password" class="form-control" name="password" id="password" placeholder="Ingrese su contraseña" required>
+                          </div>
+                                <button type="submit" class="btn btn-primary">Crear Cuenta</button>
+
+                            </form> -->
+                            <form id="formRegistro" action="controlador/paciente_Controlador.php" method="post">
                                 <div class="mb-3 text-start">
                                     <label for="nombre" class="form-label">Nombre</label>
                                     <input type="text" class="form-control" name="nombre" id="nombre" placeholder="Ingrese tu nombre"  required>
@@ -524,6 +575,6 @@
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
+<script src="js/indexValidaciones.js"></script>
 </body>
 </html>

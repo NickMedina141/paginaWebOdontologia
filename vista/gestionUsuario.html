@@ -69,7 +69,7 @@
                                 <div class="col-sm-8">
                                     <label for="documento" class="form-label small fw-medium">Número de
                                         documento</label>
-                                    <input type="text" class="form-control border-primary-subtle"
+                                    <input type="number" class="form-control border-primary-subtle"
                                         id="documento" placeholder="Ingrese el número de documento">
                                 </div>
                                 <div class="col-sm-4 d-flex align-items-end">
@@ -182,24 +182,9 @@
                                 <div id="editButtons" class="col-6">
                                     <div class="d-flex flex-column flex-sm-row gap-3">
                                         <div class="row">
-                                            <!-- <div class="col-6">
-                                                <button id="confirmButton"
-                                                    class="btn btn-primary rounded-pill">Confirmar</button>
-                                            </div> -->
                                             <div class="col-6">
-                                                <button id="confirmButton"class="btn btn-primary rounded-pill">
+                                                <button id="confirmButton" class="btn btn-primary rounded-pill">
                                                 Confirmar</button>     
-                                                    <!-- problemas -->
-                                                <form id="hiddenForm" action="../controlador/gestionUsuario_Controlador.php" method="post" style="display: none;">
-                                                    <input type="hidden" name="nombre" id="hiddenNombre">
-                                                    <input type="hidden" name="apellidos" id="hiddenApellidos">
-                                                    <input type="hidden" name="cedula" id="hiddenCedula">
-                                                    <input type="hidden" name="email" id="hiddenEmail">
-                                                    <input type="hidden" name="telefono" id="hiddenTelefono">
-                                                    <input type="hidden" name="sexo" id="hiddenSexo">
-                                                    <input type="hidden" name="edad" id="hiddenEdad">
-                                                    <input type="hidden" name="rol" id="hiddenRol">
-                                                </form>
                                             </div>
                                             <div class="col-6"> <button id="cancelButton"
                                                     class="btn btn-secondary rounded-pill">Cancelar</button>
@@ -223,6 +208,7 @@
   <script src="../controller/user-controller.js"></script> -->
     <script src="../js/gestionUsuario.js"></script>
     <!-- <script src="../controlador/gestionUsuario_Controlador"></script> -->
+     <script src="../js/gestionUsuarioValidaciones.js"></script>
 </body>
 
 </html>

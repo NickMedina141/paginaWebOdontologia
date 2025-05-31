@@ -19,7 +19,7 @@ $id = $conexion->real_escape_string($id);
 
 // $sql = "SELECT * FROM `pacientes` WHERE `cedula` = '$id'";
 $sql = "SELECT p.*, u.correo AS email  FROM pacientes p LEFT JOIN usuarios u ON p.cedula where p.cedula = '$id'";
-$resultado = $conexion->query($sql);
+// $resultado = $conexion->query($sql);
 $resultado = $conexion->query($sql);
 
 // Verificamos si la consulta fue exitosa

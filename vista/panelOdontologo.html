@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Panel del Administrador - Clínica Dental</title>
+  <title>Panel del Odontologo - Clínica Dental</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="../css/stylePanelAdministrador.css">
@@ -36,7 +36,7 @@
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
       <div class="container">
-        <a class="navbar-brand d-flex align-items-center" href="../vista/panelAministrador.html"> 
+        <a class="navbar-brand d-flex align-items-center" href="../vista/panelOdontologo.html"> 
             <!-- mirar si dejar esto: ../vista/panelAministrador.html o ../index.php -->
           <i class="bi bi-house-door me-2"></i>
           <span>Inicio</span>
@@ -48,12 +48,12 @@
         
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav me-auto">
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <a class="nav-link d-flex align-items-center" href="../vista/gestionUsuario.html">
                 <i class="bi bi-people me-2"></i>
                 <span>Gestión de usuarios</span>
               </a>
-            </li>
+            </li> -->
             <li class="nav-item">
               <a class="nav-link d-flex align-items-center" href="../vista/adminServicios.html">
                 <i class="bi bi-database me-2"></i>
@@ -84,18 +84,12 @@
                 <span>Búsqueda clínica</span>
               </a>
             </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <a class="nav-link d-flex align-items-center" href="../vista/admin_reportes.html">
                 <i class="bi bi-bar-chart me-2"></i>
                 <span>Reportes</span>
               </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link d-flex align-items-center" href="../php/backup.php">
-                <i class="bi bi-database-fill-down me-2"></i>
-                <span>Copia de seguridad</span>
-              </a>
-            </li>
+            </li> -->
           </ul>
           <div class="d-flex">
             <!-- opcion1 -->
@@ -116,7 +110,7 @@
     <!-- Main Content -->
     <main class="container py-4 position-relative">
       <div class="fade-in-animation">
-        <h1 class="fs-3 fw-bold mb-4">Panel del administrador</h1>
+        <h1 class="fs-3 fw-bold mb-4">Panel del Odontologo</h1>
 
         <div class="row g-4 mb-4">
           <!-- Account Information -->
@@ -143,17 +137,8 @@
                       <div class="col-6 text-secondary">Cédula:</div>
                       <div class="col-6" id="userCedula"></div>
 
-                      <!-- <div class="col-6 text-secondary">Email:</div>
-                      <div class="col-6" id="userEmail">admin@example.com</div> -->
-
                       <div class="col-6 text-secondary">Teléfono:</div>
                       <div class="col-6" id="userTelefono"></div>
-
-                      <!-- <div class="col-6 text-secondary">Sexo:</div>
-                      <div class="col-6" id="userSexo">Femenino</div> -->
-
-                      <!-- <div class="col-6 text-secondary">Edad:</div>
-                      <div class="col-6" id="userEdad">24</div> -->
 
                       <div class="col-6 text-secondary">Rol:</div>
                       <div class="col-6" id="userRol"></div>
@@ -252,142 +237,10 @@
     </main>
   </div>
 
-  <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="../js/common.js"></script>
-  <script src="../js/dashboard-admin.js"></script> -->
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   <!-- <script src="../js/panelAdministrador.js"></script> -->
-   <script src="../controlador/panelAdministrador_Controlador.js"></script>
+   <script src="../controlador/panelOdontologo_Controlador.js"></script>
+   sce
 </body>
 </html>
-
-
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apartado personal</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-
-    <link rel="stylesheet" href="../css/stylePanelAdministrador.css">
-</head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-lg">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">Inicio</a>
-                <div class="collapse navbar-collapse">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item d-flex align-items-center gap-2 me-4" >
-                            <i class="bi bi-people" style="color: white;"></i>
-                            <a class="nav-link" href="" style="color: #ffff;">Gestión de usuarios</a>                            
-                        </li>
-                        <li class="nav-item d-flex align-items-center gap-2 me-4">
-                            <i class="bi bi-calendar4" style="color: white;"></i>
-                            <a class="nav-link" href="" style="color: #ffff;">Agendas y citas</a>
-                        </li>
-                        <li class="nav-item d-flex align-items-center gap-2 me-4">
-                            <i class="bi bi-clock" style="color: white;"></i>
-                            <a class="nav-link" href="" style="color: #ffff;">Horarios</a>
-                        </li>
-                        <li class="nav-item d-flex align-items-center gap-2 me-4">
-                            <i class="bi bi-search" style="color: white;"></i>
-                            <a class="nav-link" href="" style="color: #ffff;">Busqueda Clínica</a>
-                            
-                        </li>
-                        <li class="nav-item d-flex align-items-center gap-2 me-4">
-                            <i class="bi bi-bar-chart" style="color: white;"></i>
-                            <a class="nav-link" href="" style="color: #ffff;">Reporte</a>
-                        </li>
-                    </ul>
-                    <button class="btn btn-logout">Salir</button>
-                </div>
-            </div>
-        </nav>
-    </header>
-
-    <div class="container-fluid">
-        <h3>Panel del administrador</h3>
-
-        <div class="row mt-4">
-            <div class="col-md-6">
-                <div class="card bg-light">
-                    <div class="d-flex align-items-center gap-2 me-4">
-                        <i class="bi bi-person " style="color: #007bff;"></i>
-                        <h5 class="mb-0">Información de cuenta</h5>
-                    </div>
-                    <div class="d-flex align-items-center gap-2 mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" stroke="currentColor" class="bi bi-person-circle me-3" viewBox="0 0 16 16">
-                        <path d="M13.468 12.37C12.758 11.226 11.383 10.5 9.5 10.5h-3c-1.883 0-3.258.726-3.968 1.87A6.978 6.978 0 0 0 8 15a6.978 6.978 0 0 0 5.468-2.63z"/>
-                        <path fill-rule="evenodd" d="M8 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1z"/>
-                    </svg>
-                    <div>
-                        <p><span class="info-label">Nombre: </span>Carlos</p>
-                        <p><span class="info-label">Apellidos: </span>Rodriguez</p>
-                        <p><span class="info-label">Cedula: </span>1234567891</p>
-                        <p><span class="info-label">Email: </span>carlos@example.com</p>
-                        <p><span class="info-label">Teléfono: </span>5551234567</p>
-                        <p><span class="info-label">Sexo: </span>Masculino</p>
-                        <p><span class="info-label">Edad: </span>35</p>
-                        <p><span class="info-label">Rol: </span>Paciente</p>
-                    </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6">
-        <div class="card bg-light">
-            <div class="d-flex align-items-center gap-2 me-4">
-                <i class="bi bi-calendar4" style="color: #007bff;"></i>
-                <h5 class="mb-0">Historial clínico</h5>
-            </div>
-            
-          <p><span class="info-label">Tratamientos:</span> Limpieza dental, Blanqueamiento, Ortodoncia</p>
-          <p><span class="info-label">Medicamentos:</span> Ibuprofeno 400mg, Amoxicilina 500mg</p>
-          <p><span class="info-label">Padecimientos:</span> Sensibilidad dental, Bruxismo</p>
-          <p><span class="info-label">Alergias:</span> Ninguna</p>
-          <p><span class="info-label">Antecedentes:</span> Hipertensión</p>
-        </div>
-      </div>
-            </div>
-
-                
-
-            <div class="card bg-light mt-4">
-                <h5>Citas recientes</h5>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Servicio odontológico</th>
-                            <th>Fecha de agendamiento</th>
-                            <th>Hora de agendamiento</th>
-                            <th>Estado</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <td>Limpieza dental</td>
-                        <td>15/04/2023</td>
-                        <td>10:30 AM</td>
-                        <td><span class="estado_completada">Completada</span></td>
-                    </tbody>
-                    <tbody>
-                        <td>Revision de ortodoncia</td>
-                        <td>28/05/2023</td>
-                        <td>15:00 AM</td>
-                        <td><span class="estado_programada">Programada</span></td>
-                    </tbody>
-                    <tbody>
-                        <td>Blanqueamiento dental</td>
-                        <td>12/06/2023</td>
-                        <td>16:45 PM</td>
-                        <td><span class="estado_pendiente">Pendiente</span></td>
-                    </tbody>
-                </table>
-            </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
-</body>
-</html> -->

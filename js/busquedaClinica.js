@@ -43,6 +43,17 @@ const searchForm = document.getElementById('searchForm');
           patientSexo.textContent = Sexo(userData.sexo);
           patientEdad.textContent = mostrarEdad(userData.edad);
           viewUserInfo.style.display = "block";
+
+          const btnHistorial = document.querySelector(".btn-historial");
+          const btnProcedimientos = document.querySelector(".btn-procedimientos");
+
+          if(btnHistorial){
+            btnHistorial.setAttribute("data-cedula",userData.cedula);
+          }
+          if(btnProcedimientos){
+            btnProcedimientos.setAttribute("data-cedula",userData.cedula);
+          }
+
         } else {
           showNotification("No se encontro al paciente");
           patientInfoSection.style.display = "none";
@@ -120,23 +131,23 @@ function Sexo(numero){
   }
 
 
-// document.addEventListener("DOMContentLoaded", ()=>{
-//   document.addEventListener("click", function (e) {
-//   // Historial Clínico
-//   if (e.target.matches(".btn-historial")) {
-//     e.preventDefault();
-//     const cedula = e.target.getAttribute("data-cedula");
-//     window.location.href = `../vista/adminHistorialClinico.html?id=${encodeURIComponent(cedula)}`;
-//   }
+document.addEventListener("DOMContentLoaded", ()=>{
+  document.addEventListener("click", function (e) {
+  // Historial Clínico
+  if (e.target.matches(".btn-historial")) {
+    e.preventDefault();
+    const cedula = e.target.getAttribute("data-cedula");
+    window.location.href = `../vista/adminHistorialClinico.html?id=${encodeURIComponent(cedula)}`;
+  }
 
-//   // Procedimientos
-//   if (e.target.matches(".btn-procedimientos")) {
-//     e.preventDefault();
-//     const cedula = e.target.getAttribute("data-cedula");
-//     window.location.href = `../vista/adminProcedimientos.html?id=${encodeURIComponent(cedula)}`;
-//   }
-// });
-// });
+  // Procedimientos
+  if (e.target.matches(".btn-procedimientos")) {
+    e.preventDefault();
+    const cedula = e.target.getAttribute("data-cedula");
+    window.location.href = `../vista/adminProcedimientos.html?id=${encodeURIComponent(cedula)}`;
+  }
+});
+});
 
 
 
@@ -199,4 +210,30 @@ function Sexo(numero){
 
 
   
+});
+
+document.addEventListener("click", function (e) {
+  // Verifica si se hizo clic en el botón de historial
+  if (e.target.closest(".btn-historial")) {
+    e.preventDefault();
+    const btn = e.target.closest(".btn-historial");
+    const cedula = btn.getAttribute("data-cedula");
+    if (cedula) {
+      window.location.href = `../vista/adminHistorialClinico.html?cedula=${encodeURIComponent(cedula)}`;
+    } else {
+      alert("No hay cédula disponible");
+    }
+  }
+
+  // Verifica si se hizo clic en el botón de procedimientos
+  if (e.target.closest(".btn-procedimientos")) {
+    e.preventDefault();
+    const btn = e.target.closest(".btn-procedimientos");
+    const cedula = btn.getAttribute("data-cedula");
+    if (cedula) {
+      window.location.href = `../vista/adminProcedimientos.html?cedula=${encodeURIComponent(cedula)}`;
+    } else {
+      alert("No hay cédula disponible");
+    }
+  }
 });

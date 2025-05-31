@@ -1,16 +1,7 @@
 <?php
 session_start();
 require_once('../modelo/registroPaciente.php');
-// require '../phpMailer/PHPMailer-master/src/PHPMailer.php';
-// require '../phpMailer/PHPMailer-master/src/SMTP.php';
-// require '../phpMailer/PHPMailer-master/src/Exception.php';
 
-
-// use PHPMailer\PHPMailer\PHPMailer;
-// use PHPMailer\PHPMailer\Exception;
-
-
-// $mail = new PHPMailer(true);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $cedula = intval(trim($_POST['cedula']));
@@ -26,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $sexo = false;
     }
     //manera 2
-    // $sexo = ($sexo == "masculino") ? 1: 0;
+    $sexo = ($sexo == "Masculino") ? 1: 0;
     $telefono = intval(trim($_POST['telefono']));
     $edad = str_replace("T"," ",$_POST["date"]); // REVISAR
     $password = trim($_POST['password']);
@@ -35,19 +26,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $paciente = new Paciente();
 
     if($paciente->existenciaPaciente($cedula)){
-        header("Location: ../vista/panelPaciente.html");
+        $_SESSION["cedula"] = $cedula;
+        // echo "<script>window.location.href = '../vista/panelPaciente.html?cedula={$cedula}';</script>";
+        exit();
+        // header("Location: ../vista/panelPaciente.html");
         exit();
     }else{
-        // if($paciente->registrarUsuario($correo,$encriptada,"paciente")){
-        //     if($paciente->registrarPaciente($cedula,$nombres, $apellidos,$sexo,$telefono)){
-        //     // enviarCorreo($correo);
-        //     header("Location: ../index.html");
-        //     exit();
-        //     }else{
-        //         echo"Error";
-        //         exit();
-        //     } 
-        // }
         
         if($paciente->registrarPaciente($cedula,$nombres, $apellidos,$sexo,$edad,$telefono)){
             if($paciente->registrarUsuario($cedula,$correo,$encriptada,"paciente")){
