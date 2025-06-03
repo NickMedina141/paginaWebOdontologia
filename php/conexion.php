@@ -1,4 +1,5 @@
 <?php
+//Clase de conexion para permitir la conexion del software a la base de datos
 class Conexion{
     private $host = "localhost"; // Servidor
     private $usuario = "root"; // Usuario de la BD
@@ -12,12 +13,6 @@ class Conexion{
         if($this->conexion->connect_error){
             die("Error de conexión: " . $this->conexion->connect_error);
         }
-
-        // if($this->conexion){
-        //     echo "Lo logre!!!";
-        // }else{
-        //     echo "Todo es culpa de gabriel!!!";
-        // }
         return $this->conexion;
     }
 }

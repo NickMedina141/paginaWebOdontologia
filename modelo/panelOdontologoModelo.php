@@ -1,8 +1,9 @@
-<?php 
+<?php
 header("Content-Type: application/json");
 include_once("../php/conexion.php");
 
-class Odontologo{
+class Odontologo
+{
     private $conexion;
     public function __construct()
     {
@@ -10,46 +11,44 @@ class Odontologo{
         $this->conexion = $db->conectar();
     }
 
+    //Funcion para obtener la información de un odontologo mediante su cedula
+    function obtenerInformacionOdontologo($cedula)
+    {
 
-function obtenerInformacionOdontologo($cedula){
+        $sql = "SELECT nombre, apellido, cedula, telefono, rol FROM odontologos WHERE rol = '1' AND cedula = '$cedula'";
+        $resultado = $this->conexion->query($sql);
 
-    $sql = "SELECT nombre, apellido, cedula, telefono, rol FROM odontologos WHERE rol = 'odontologo' AND cedula = '$cedula'";
-    $resultado = $this->conexion->query($sql);
-
-    if($resultado && $resultado->num_rows > 0){
-        $odontologo = $resultado->fetch_assoc();
-    }else{
-        $odontologo = ["error" => "No se encontró al odontólogo"];
-    }
-
-    $this->conexion->close();
-    return $odontologo;
-    }
-
-
-function obtenerCitasRecientes(){
-    $sql = "SELECT servicio,fecha,hora_inicio,estado FROM cita 
-    ORDER BY fecha DESC, hora_inicio DESC LIMIT 4";
-    
-    $resultado = $this->conexion->query($sql);
-    if (!$resultado) {
-        return ["error" => "Error en la consulta: " . $this->conexion->error];
-    }
-
-    $citas = [];
-    if($resultado && $resultado->num_rows > 0){
-        while ($fila = $resultado->fetch_assoc()) {
-            $fila["estado"] = $fila["estado"] == 1 ? "Completada": "Pendiente";
-            $citas[] = $fila;
+        if ($resultado && $resultado->num_rows > 0) {
+            $odontologo = $resultado->fetch_assoc();
+        } else {
+            $odontologo = ["error" => "No se encontró al odontólogo"];
         }
+
+        $this->conexion->close();
+        return $odontologo;
     }
 
-    return $citas;
-}
+    //Funcion para obtener las citas registradas recientes, 4 en total
+    function obtenerCitasRecientes()
+    {
+        $sql = "SELECT servicio,fecha,hora_inicio,estado FROM cita 
+    ORDER BY fecha DESC, hora_inicio DESC LIMIT 4";
 
+        $resultado = $this->conexion->query($sql);
+        if (!$resultado) {
+            return ["error" => "Error en la consulta: " . $this->conexion->error];
+        }
 
+        $citas = [];
+        if ($resultado && $resultado->num_rows > 0) {
+            while ($fila = $resultado->fetch_assoc()) {
+                $fila["estado"] = $fila["estado"] == 1 ? "Completada" : "Pendiente";
+                $citas[] = $fila;
+            }
+        }
 
-
+        return $citas;
+    }
 }
 
 
@@ -78,5 +77,3 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             echo json_encode(["error" => "Acción no válida"]);
     }
 }
-
-?>

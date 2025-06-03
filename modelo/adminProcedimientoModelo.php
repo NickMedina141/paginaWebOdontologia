@@ -12,17 +12,10 @@ class Procedimiento
         $this->conexion = $db->conectar();
     }
 
-    function obtenerProcedimientos($idPaciente)
-    {
-        // $sql = "SELECT id_cita, descripcion FROM procedimientos WHERE pacientes_cedula = ?";
-        $sql = "SELECT 
-                p.id_cita, 
-                p.descripcion, 
-                p.id_procedimiento,
-                CONCAT(pac.nombres, ' ', pac.apellidos) AS nombre_paciente
-            FROM procedimientos p
-            JOIN pacientes pac ON p.pacientes_cedula = pac.cedula
-            WHERE p.pacientes_cedula = ?";
+    //Funcion para obtener la informacion del procedimientos del paciente
+    function obtenerProcedimientos($idPaciente){
+        $sql = "SELECT p.id_cita, p.descripcion, p.id_procedimiento, CONCAT(pac.nombres, ' ', pac.apellidos) AS nombre_paciente FROM procedimientos p
+            JOIN pacientes pac ON p.pacientes_cedula = pac.cedula WHERE p.pacientes_cedula = ?";
         $stmt = $this->conexion->prepare($sql);
         if (!$stmt) {
             return ["success" => false, "message" => "Error en consulta: " . $this->conexion->error];
@@ -42,10 +35,9 @@ class Procedimiento
         return $citas;
     }
 
-    function obtenerCitas($idPaciente)
-    {
+    //Funcion para obtener las citas agendadas del paciente
+    function obtenerCitas($idPaciente){
         $sql = "SELECT id_cita, servicio, fecha, estado FROM cita WHERE pacientes_cedula = ?";
-
         $stmt = $this->conexion->prepare($sql);
         if (!$stmt) {
             return ["success" => false, "message" => "Error en consulta: " . $this->conexion->error];
@@ -61,15 +53,12 @@ class Procedimiento
         }
 
         $stmt->close();
-
         return $citas;
     }
 
-
-    function agregarProcedimiento($paciente_cedula, $id_cita, $descripcion)
-    {
+    //Funcion para agregar un procedimiento a una cita de un paciente
+    function agregarProcedimiento($paciente_cedula, $id_cita, $descripcion){
         $sql = "INSERT INTO procedimientos (pacientes_cedula,id_cita,descripcion) VALUES (?, ?, ?)";
-
         $stmt = $this->conexion->prepare($sql);
         if (!$stmt) {
             return ["success" => false, "message" => "Error en consulta: " . $this->conexion->error];
@@ -86,10 +75,9 @@ class Procedimiento
         }
     }
 
-    function eliminarProcedimiento($id_procedimiento)
-    {
+    //Funcion para eliminar un procedimiento de un paciente
+    function eliminarProcedimiento($id_procedimiento){
         $sql = "DELETE FROM procedimientos WHERE id_procedimiento = ?";
-
         $stmt = $this->conexion->prepare($sql);
         if (!$stmt) {
             return ["success" => false, "message" => "Error en consulta: " . $this->conexion->error];
@@ -106,8 +94,8 @@ class Procedimiento
         }
     }
 
-    function editarProcedimiento($id_procedimiento, $descripcion)
-    {
+    //Funcion para editar la información de un procedimiento ya agregado
+    function editarProcedimiento($id_procedimiento, $descripcion){
         $sql = "UPDATE procedimientos SET descripcion = ? WHERE id_procedimiento = ?";
 
         $stmt = $this->conexion->prepare($sql);

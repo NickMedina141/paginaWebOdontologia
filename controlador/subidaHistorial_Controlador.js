@@ -1,115 +1,95 @@
 // Función para añadir efectos hover a las filas de tablas
-// function setupTableRowHoverEffects() {
-//   document.querySelectorAll("tbody tr").forEach((row) => {
-//     row.addEventListener("mouseenter", function () {
-//       const actions = this.querySelector(".opacity-0")
-//       if (actions) {
-//         actions.classList.remove("opacity-0")
-//         actions.classList.add("opacity-100")
-//       }
-//     })
+function setupTableRowHoverEffects() {
+  document.querySelectorAll("tbody tr").forEach((row) => {
+    row.addEventListener("mouseenter", function () {
+      const actions = this.querySelector(".opacity-0")
+      if (actions) {
+        actions.classList.remove("opacity-0")
+        actions.classList.add("opacity-100")
+      }
+    })
 
-//     row.addEventListener("mouseleave", function () {
-//       const actions = this.querySelector(".opacity-100")
-//       if (actions && actions.classList.contains("group-hover-opacity-100")) {
-//         actions.classList.remove("opacity-100")
-//         actions.classList.add("opacity-0")
-//       }
-//     })
-//   })
-// }
+    row.addEventListener("mouseleave", function () {
+      const actions = this.querySelector(".opacity-100")
+      if (actions && actions.classList.contains("group-hover-opacity-100")) {
+        actions.classList.remove("opacity-100")
+        actions.classList.add("opacity-0")
+      }
+    })
+  })
+}
 
 // Inicializar elementos comunes cuando el DOM esté cargado
 document.addEventListener("DOMContentLoaded", () => {
   const pacientesTableBody = document.querySelector("#pacientesTableBody");
 
   fetch("../modelo/subirHistorialModelo.php")
-  .then(response => response.json())
-  .then(data => {
-    console.log("Datos recibidos: ",data);
-    pacientesTableBody.innerHTML = "";
+    .then(response => response.json())
+    .then(data => {
+      pacientesTableBody.innerHTML = "";
 
-    if(data.length === 0){
-      pacientesTableBody.innerHTML = "<tr><td colspan = '5'>Todos los pacientes tienen historial.</td></tr>";
-      return;
-    }
+      if (data.length === 0) {
+        pacientesTableBody.innerHTML = "<tr><td colspan = '5'><center>Todos los pacientes tienen historial.</center></td></tr>";
+        return;
+      }
 
-    showNotification("Se cargo con exito los pacientes","success");
-    data.forEach(paciente => {
-      // const fila = `
-      //   <tr>
-      //     <td>${paciente.cedula}</td>
-      //     <td>${paciente.nombres}</td>
-      //     <td>${paciente.apellidos}</td>
-      //     <td>${genero(paciente.sexo)}</td>
-      //     <td><span class= "badge text-bg-warning"> ${paciente.estado}</span></td>
-      //     <td class="text-end">
-      //     <button class="btn btn-sm btn-primary subir-btn" data-bs-toggle="modal" data-bs-target="#subidaHistorial" data-cedula="${paciente.cedula}">
-      //     Subir
-      //     </button>
-      //     </td>
-      //   </tr>
-      // `;
-      const fila = `
-        <tr>
-          <td>${paciente.cedula}</td>
-          <td>${paciente.nombres}</td>
-          <td>${paciente.apellidos}</td>
-          <td>${genero(paciente.sexo)}</td>
-          <td><span class= "badge text-bg-warning"> ${paciente.estado}</span></td>
-          <td class="text-end">
-          <a href="#" class="btn text-primary" data-bs-toggle="modal" data-bs-target="#subidaHistorial" data-cedula ="${paciente.cedula}">
-            <i class="bi bi-arrow-up-circle-fill"></i>
-          </a>
-          
+      showNotification("Se cargo con exito los pacientes", "success");
+      data.forEach(paciente => {
+        const fila = `
+            <td>${paciente.cedula}</td>
+            <td>${paciente.nombres}</td>
+            <td>${paciente.apellidos}</td>
+            <td>${genero(paciente.sexo)}</td>
+            <td><span class="badge text-bg-warning " rounded-pill> ${paciente.estado}</span></td>
+            <td class="text-end">
+              <div class="action-buttons">
+                <button class="btn btn-sm btn-link  text-primary edit-btn" data-bs-toggle="modal" data-bs-target="#subidaHistorial" data-cedula="${paciente.cedula}">
+                  <i class="bi bi-arrow-up-circle-fill"></i>
+                </button>
+              </div>
             </td>
-        </tr>
-      `;
-      pacientesTableBody.innerHTML += fila;
+            `;
+        pacientesTableBody.innerHTML += fila;
+      });
+    })
+    .catch(error => {
+      console.log("Error al obtener los pacientes:", error);
+      showNotification("Error al cargar pacientes.", "error");
     });
-
-    // <button class="btn btn-sm text-primary subir-btn" data-bs-toggle="modal" data-bs-target="#subidaHistorial" data-cedula="${paciente.cedula}">
-    //         <i class="bi bi-arrow-up-circle-fill"></i>
-    //         </button>
-  })
-  .catch(error => {
-    console.log("Error al obtener los pacientes:",error);
-    showNotification("Error al cargar pacientes.","error");
-  });
 
 
   const toastEl = document.getElementById("notificationToast");
-      const toast = new bootstrap.Toast(toastEl);
-      const toastHeader = document.getElementById("toastHeader");
-      const toastTitle = document.getElementById("toastTitle");
-      const toastMessage = document.getElementById("toastMessage");
+  const toast = new bootstrap.Toast(toastEl);
+  const toastHeader = document.getElementById("toastHeader");
+  const toastTitle = document.getElementById("toastTitle");
+  const toastMessage = document.getElementById("toastMessage");
 
-      // Mostrar notificación toast
-      function showNotification(message, type) {
-        if (type === "success") {
-          toastTitle.textContent = "Éxito";
-          toastHeader.classList.remove("bg-danger", "text-white");
-          // Cambiar a azul claro en lugar de verde para notificaciones de éxito
-          toastHeader.classList.add("bg-info", "text-white");
-        } else {
-          toastTitle.textContent = "Error";
-          toastHeader.classList.remove("bg-info", "text-white");
-          toastHeader.classList.add("bg-danger", "text-white");
-        }
-        toastMessage.textContent = message;
-        toast.show();
-      }
+  // Mostrar notificación toast
+  function showNotification(message, type) {
+    if (type === "success") {
+      toastTitle.textContent = "Éxito";
+      toastHeader.classList.remove("bg-danger", "text-white");
+      // Cambiar a azul claro en lugar de verde para notificaciones de éxito
+      toastHeader.classList.add("bg-info", "text-white");
+    } else {
+      toastTitle.textContent = "Error";
+      toastHeader.classList.remove("bg-info", "text-white");
+      toastHeader.classList.add("bg-danger", "text-white");
+    }
+    toastMessage.textContent = message;
+    toast.show();
+  }
 });
 
-function capturarCedula(){
+function capturarCedula() {
   document.getElementById("cedula").value = paciente.cedula;
 }
 
 //para capturar la cedula
-document.addEventListener("DOMContentLoaded", () =>{
+document.addEventListener("DOMContentLoaded", () => {
   const modal = document.getElementById("subidaHistorial");
 
-  modal.addEventListener("show.bs.modal",function (event){
+  modal.addEventListener("show.bs.modal", function (event) {
     const boton = event.relatedTarget; // boton que activo el modal
     const cedula = boton.getAttribute("data-cedula"); // obtener la cedula del atributo data de cada paciente
     document.getElementById("cedula").value = cedula; // asignar la cedula al input oculto de cedula
@@ -117,8 +97,8 @@ document.addEventListener("DOMContentLoaded", () =>{
 });
 
 
-function genero(sexo){
-  switch(sexo){
+function genero(sexo) {
+  switch (sexo) {
     case "1":
       return "masculino";
     case "0":
@@ -126,21 +106,18 @@ function genero(sexo){
   };
 }
 
-function eliminar(){
+function eliminar() {
   const params = new URLSearchParams(window.location.search);
   const cedula = params.get("subido");
-  if(cedula){
+  if (cedula) {
     const fila = document.querySelector(`tr[data-cedula="${cedula}"]`);
-    if(fila){
+    if (fila) {
       fila.remove();
     }
   }
-  showNotification("Historial subido exitosamente para el paciente","success");
-  history.replaceState(null,"",window.location.pathname);
+  showNotification("Historial subido exitosamente para el paciente", "success");
+  history.replaceState(null, "", window.location.pathname);
 }
-
-
-
 // Funciones comunes para todas las páginas
 function showNotification(message, type) {
   const toastEl = document.getElementById("notificationToast")

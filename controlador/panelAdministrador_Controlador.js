@@ -1,5 +1,6 @@
 // para cargar los datos del administrador
 document.addEventListener("DOMContentLoaded", () => {
+  let cedula = null;
   fetch("../modelo/panelAdministradorModelo.php", {
     method: "POST",
     headers: {
@@ -7,117 +8,54 @@ document.addEventListener("DOMContentLoaded", () => {
     },
     body: JSON.stringify({ accion: "obtenerInformacionAdministrador" })
   })
-  .then(response => response.json())
-  .then(data => {
-    console.log("Datos recibidos: ",data);
+    .then(response => response.json())
+    .then(data => {
+      if (data.error) {
+        console.error(data.error);
+        return;
+      }
+      cedula = data.cedula;
+      showNotification("Se cargo con exito la informacion del administrador", "success");
+      document.getElementById("userNombre").textContent = data.nombre;
+      document.getElementById("userApellidos").textContent = data.apellido;
+      document.getElementById("userCedula").textContent = data.cedula;
+      document.getElementById("userTelefono").textContent = data.telefono;
+      document.getElementById("userRol").textContent = "Administrador";
 
-    if(data.error){
-      console.error(data.error);
-      return;
-    }
+      const enlaceAgendarCita = document.querySelector('.nav-link[href="../vista/adminAgendarCita.php"]');
 
-    showNotification("Se cargo con exito la informacion del administrador","success");
-    document.getElementById("userNombre").textContent = data.nombre;
-    document.getElementById("userApellidos").textContent = data.apellido;
-    document.getElementById("userCedula").textContent = data.cedula;
-    document.getElementById("userTelefono").textContent = data.telefono;
-    document.getElementById("userRol").textContent = data.rol;
+      enlaceAgendarCita.href = `../vista/adminAgendarCita.php?cedula=${cedula}`;
 
-
-  })
-  .catch(error => {
-    console.log("Error al obtener los datos del administrador:",error);
-    showNotification("Error al cargar al administrador.","error");
-  });
+    })
+    .catch(error => {
+      console.log("Error al obtener los datos del administrador:", error);
+      showNotification("Error al cargar al administrador.", "error");
+    });
 
 
   const toastEl = document.getElementById("notificationToast");
-      const toast = new bootstrap.Toast(toastEl);
-      const toastHeader = document.getElementById("toastHeader");
-      const toastTitle = document.getElementById("toastTitle");
-      const toastMessage = document.getElementById("toastMessage");
+  const toast = new bootstrap.Toast(toastEl);
+  const toastHeader = document.getElementById("toastHeader");
+  const toastTitle = document.getElementById("toastTitle");
+  const toastMessage = document.getElementById("toastMessage");
 
-      // Mostrar notificación toast
-      function showNotification(message, type) {
-        if (type === "success") {
-          toastTitle.textContent = "Éxito";
-          toastHeader.classList.remove("bg-danger", "text-white");
-          // Cambiar a azul claro en lugar de verde para notificaciones de éxito
-          toastHeader.classList.add("bg-info", "text-white");
-        } else {
-          toastTitle.textContent = "Error";
-          toastHeader.classList.remove("bg-info", "text-white");
-          toastHeader.classList.add("bg-danger", "text-white");
-        }
-        toastMessage.textContent = message;
-        toast.show();
-      }
+  // Mostrar notificación toast
+  function showNotification(message, type) {
+    if (type === "success") {
+      toastTitle.textContent = "Éxito";
+      toastHeader.classList.remove("bg-danger", "text-white");
+      toastHeader.classList.add("bg-info", "text-white");
+    } else {
+      toastTitle.textContent = "Error";
+      toastHeader.classList.remove("bg-info", "text-white");
+      toastHeader.classList.add("bg-danger", "text-white");
+    }
+    toastMessage.textContent = message;
+    toast.show();
+  }
 
   cargarCitasRecientes();
 });
-
-// function cargarCitasRecientes() {
-//   fetch("../modelo/panelAdministradorModelo.php", {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json"
-//     },
-//     body: JSON.stringify({ accion: "obtenerCitas" })
-//   })
-//   .then(res => res.json())
-//   .then(data => {
-//     console.log("Citas recientes:", data);
-
-//     const tablaBody = document.getElementById("tablaCitasRecientes");
-
-//     if (!tablaBody) return;
-
-//     tablaBody.innerHTML = "";
-
-//     if (data.length === 0) {
-//       tablaBody.innerHTML = "<tr><td colspan='4' class='text-center text-muted'>No hay citas recientes.</td></tr>";
-//       return;
-//     }
-
-//     data.forEach(cita => {
-//       const fila = document.createElement("tr");
-
-//       fila.innerHTML = `
-//         <td>${cita.servicio}</td>
-//         <td>${formatearFechaBonita(cita.fecha)}</td>
-//         <td>${formatearHora(cita.hora_inicio)} - ${formatearHora(cita.hora_fin)}</td>
-//         <td>${cita.estado}</td>
-//       `;
-
-//       tablaBody.appendChild(fila);
-//     });
-//   })
-//   .catch(err => {
-//     console.error("Error al cargar citas recientes:", err);
-//     showNotification("Error al cargar citas recientes.", "error");
-//   });
-// }
-
-// function formatearFechaBonita(fechaISO) {
-//   const fecha = new Date(fechaISO);
-//   return fecha.toLocaleDateString("es-CO", {
-//     year: "numeric",
-//     month: "long",
-//     day: "numeric"
-//   });
-// }
-
-// function formatearHora(hora) {
-//   const [h, m, s] = hora.split(":");
-//   let horas = parseInt(h, 10);
-//   const ampm = horas >= 12 ? 'PM' : 'AM';
-//   horas = horas % 12 || 12;
-//   return `${horas}:${m} ${ampm}`;
-// }
-
-
-
-// Funciones comunes para todas las páginas
 
 function cargarCitasRecientes() {
   fetch("../modelo/panelAdministradorModelo.php", {
@@ -127,50 +65,53 @@ function cargarCitasRecientes() {
     },
     body: JSON.stringify({ accion: "obtenerCitasRecientes" })
   })
-  .then(res => res.json())
-  .then(data => {
-    console.log("Citas recientes:", data);
-    const tablaBody = document.getElementById("tablaCitasRecientes");
-    if (!tablaBody) return;
+    .then(res => res.json())
+    .then(data => {
+      const tablaBody = document.getElementById("tablaCitasRecientes");
+      if (!tablaBody) return;
 
-    tablaBody.innerHTML = "";
+      tablaBody.innerHTML = "";
 
-    if (!Array.isArray(data) || data.length === 0) {
-      tablaBody.innerHTML = `
+      if (!Array.isArray(data) || data.length === 0) {
+        tablaBody.innerHTML = `
         <tr>
           <td colspan="4" class="text-center text-muted">No hay citas recientes</td>
         </tr>`;
-      return;
-    }
+        return;
+      }
 
-    data.forEach(cita => {
-      const estadoTexto = cita.estado === 'Completada' ? 'Completada' : 'Pendiente';
-      const badgeClass = cita.estado === 'Completada' ? 'bg-success' : 'bg-warning text-dark';
+      data.forEach(cita => {
+        const estadoTexto = cita.estado === 'Completada' ? 'Completada' : 'Pendiente';
+        const badgeClass = cita.estado === 'Completada' ? 'bg-success' : 'bg-warning text-dark';
 
-      const fila = document.createElement("tr");
-      fila.innerHTML = `
+        const fila = document.createElement("tr");
+        fila.innerHTML = `
         <td>${cita.servicio}</td>
         <td>${formatearFechaBonita(cita.fecha)}</td>
         <td>${formatearHora(cita.hora_inicio)}</td>
         <td><span class="badge ${badgeClass} rounded-pill">${estadoTexto}</span></td>
       `;
-      tablaBody.appendChild(fila);
+        tablaBody.appendChild(fila);
+      });
+    })
+    .catch(err => {
+      console.error("Error al cargar citas recientes:", err);
+      showNotification("Error al cargar citas recientes.", "error");
     });
-  })
-  .catch(err => {
-    console.error("Error al cargar citas recientes:", err);
-    showNotification("Error al cargar citas recientes.", "error");
-  });
 }
 
+
 function formatearFechaBonita(fechaISO) {
-  const fecha = new Date(fechaISO);
+  const partes = fechaISO.split('-'); // ["YYYY", "MM", "DD"]
+  const fecha = new Date(parseInt(partes[0]), parseInt(partes[1]) - 1, parseInt(partes[2]));
+
   return fecha.toLocaleDateString("es-CO", {
     year: "numeric",
     month: "2-digit",
     day: "2-digit"
   });
 }
+
 
 function formatearHora(hora) {
   const [h, m] = hora.split(":");
@@ -203,4 +144,25 @@ function showNotification(message, type) {
 
   toastMessage.textContent = message
   toast.show()
+}
+
+// Función para añadir efectos hover a las filas de tablas
+function setupTableRowHoverEffects() {
+  document.querySelectorAll("tbody tr").forEach((row) => {
+    row.addEventListener("mouseenter", function () {
+      const actions = this.querySelector(".opacity-0")
+      if (actions) {
+        actions.classList.remove("opacity-0")
+        actions.classList.add("opacity-100")
+      }
+    })
+
+    row.addEventListener("mouseleave", function () {
+      const actions = this.querySelector(".opacity-100")
+      if (actions && actions.classList.contains("group-hover-opacity-100")) {
+        actions.classList.remove("opacity-100")
+        actions.classList.add("opacity-0")
+      }
+    })
+  })
 }

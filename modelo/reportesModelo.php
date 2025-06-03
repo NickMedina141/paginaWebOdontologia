@@ -11,6 +11,7 @@ class Reportes
         $this->conexion = $db->conectar();
     }
 
+    //Funcion para obtener los reportes disponibles en la tabla reportes
     public function obtenerReportes()
     {
         $sql = "SELECT * FROM reportes";
@@ -39,6 +40,7 @@ class Reportes
         ];
     }
 
+    //Funcion para traer las citas de la tabla cita de dicho mes seleccionado
     function obtenerCitas($mes)
     {
         $sql = "SELECT c.id_cita, c.pacientes_cedula, c.odontologos_cedula,
@@ -77,6 +79,7 @@ class Reportes
         ];
     }
 
+    //Funcion para subir un reporte al sistema
     function subirReporte($mes, $fecha_creacion)
     {
         $sql = "INSERT INTO reportes (mes_reporte, fecha_creacion) VALUES (?, ?)";
@@ -94,6 +97,7 @@ class Reportes
         return ["success" => true, "message" => "Reporte subido exitosamente"];
     }
 
+    //Funcion para eliminar un reporte del sistema
     function eliminarReporte($id_reporte)
     {
         $sql = "DELETE FROM reportes WHERE id_reporte = ?";
@@ -128,6 +132,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     $reportes = new Reportes();
 
+    // casos de acciones para que el programa sepa por donde tiene que ir mediante acciones
     switch ($input['accion']) {
         case 'obtenerReportes':
             $respuesta = $reportes->obtenerReportes();
@@ -152,7 +157,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             echo json_encode($respuesta);
             exit;
         case 'eliminarReporte':
-            if(!isset($input['id_reporte'])) {
+            if (!isset($input['id_reporte'])) {
                 http_response_code(400);
                 echo json_encode(["success" => false, "message" => "ID de reporte no proporcionado"]);
                 exit;

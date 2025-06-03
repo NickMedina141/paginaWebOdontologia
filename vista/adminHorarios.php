@@ -1,3 +1,16 @@
+<?php
+session_start();
+if (isset($_SESSION['email'])) {
+  if ($_SESSION['rol'] == "2") {
+    header("Location: ../index2.php");
+    exit; // Muy recomendable para detener la ejecución del script
+  }
+} else {
+  header("Location: ../index2.php");
+  exit; // Muy recomendable para detener la ejecución del script
+}
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -15,12 +28,10 @@
 <body>
   <div class="min-h-screen bg-white flex flex-col">
     <!-- Background Logo -->
-    
-
     <div class="page-content">
       <div class="container py-8 z-10 relative">
         <div class="flex items-center mb-6">
-          <a href="panelAministrador.html" class="mr-4">
+          <a href="panelAdministrador.php" class="mr-4">
             <i class="fas fa-chevron-left text-primary text-xl"></i>
           </a>
           <h1 class="text-2xl font-bold text-gray-800">Gestión de Horarios</h1>
@@ -40,9 +51,7 @@
             </div>
           </div>
 
-
           <div class="calendar-header">
-            <!-- <div class="text-center font-medium text-gray-600">Dom</div> -->
             <div class="text-center font-medium text-gray-600">Lun</div>
             <div class="text-center font-medium text-gray-600">Mar</div>
             <div class="text-center font-medium text-gray-600">Mié</div>
@@ -52,7 +61,6 @@
           </div>
 
           <div id="calendar" class="calendar">
-            <!-- Calendar days will be generated here -->
           </div>
           
 
@@ -83,40 +91,6 @@
                   <label class="block text-sm font-medium text-gray-600 mb-1">
                     Horas disponibles
                   </label>
-                  <!-- <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                    <label class="inline-flex items-center">
-                      <input type="checkbox" class="form-checkbox text-primary" value="08:00" checked>
-                      <span class="ml-2 text-gray-700">8:00 AM</span>
-                    </label>
-                    <label class="inline-flex items-center">
-                      <input type="checkbox" class="form-checkbox text-primary" value="09:00" checked>
-                      <span class="ml-2 text-gray-700">9:00 AM</span>
-                    </label>
-                    <label class="inline-flex items-center">
-                      <input type="checkbox" class="form-checkbox text-primary" value="10:00" checked>
-                      <span class="ml-2 text-gray-700">10:00 AM</span>
-                    </label>
-                    <label class="inline-flex items-center">
-                      <input type="checkbox" class="form-checkbox text-primary" value="11:00" checked>
-                      <span class="ml-2 text-gray-700">11:00 AM</span>
-                    </label>
-                    <label class="inline-flex items-center">
-                      <input type="checkbox" class="form-checkbox text-primary" value="14:00" checked>
-                      <span class="ml-2 text-gray-700">2:00 PM</span>
-                    </label>
-                    <label class="inline-flex items-center">
-                      <input type="checkbox" class="form-checkbox text-primary" value="15:00" checked>
-                      <span class="ml-2 text-gray-700">3:00 PM</span>
-                    </label>
-                    <label class="inline-flex items-center">
-                      <input type="checkbox" class="form-checkbox text-primary" value="16:00" checked>
-                      <span class="ml-2 text-gray-700">4:00 PM</span>
-                    </label>
-                    <label class="inline-flex items-center">
-                      <input type="checkbox" class="form-checkbox text-primary" value="17:00" checked>
-                      <span class="ml-2 text-gray-700">5:00 PM</span>
-                    </label>
-                  </div> -->
                   <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
                     <label class="inline-flex items-center">
                       <input type="checkbox" class="form-checkbox text-primary" value="08:00">
@@ -165,11 +139,9 @@
       </div>
     </div>
   </div>
-
   <div id="notification" class="notification">
     <span id="notificationMessage"></span>
   </div>
-  <!-- <script src="../js/horario.js"></script> -->
-   <script src="../controlador/adminHorarios_Controlador.js"></script>
+  <script src="../controlador/adminHorarios_Controlador.js"></script>
 </body>
 </html>

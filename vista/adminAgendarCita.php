@@ -1,5 +1,13 @@
+<?php
+session_start();
+if (!isset($_SESSION['email'])) {
+  header("Location: ../index2.php");
+  exit; // Muy recomendable para detener la ejecución del script
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,10 +16,11 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
   <!-- Importación de estilos personalizados -->
-  <!-- <link rel="stylesheet" href="../css/common.css">
-  <link rel="stylesheet" href="../css/admin-agendas-citas.css"> -->
   <link rel="stylesheet" href="../css/styleAgendarCita.css">
+  <link rel="icon" href="../img/logo-odontologia ICO.ico">
+
 </head>
+
 <body>
   <!-- Contenedor de notificaciones toast -->
   <div class="toast-container position-fixed top-0 end-0 p-3">
@@ -28,7 +37,7 @@
     <!-- Logo de fondo con baja opacidad -->
     <div class="position-absolute w-100 h-100 d-flex align-items-center justify-content-center opacity-10 pointer-events-none">
       <div style="width: 400px; height: 400px;" class="position-relative">
-        <img src="../img/logo-extracted.png" alt="Dra. Diana Noriega Logo" class="img-fluid">
+        <img src="../img/logo.png" alt="Dra. Diana Noriega Logo" class="img-fluid">
       </div>
     </div>
 
@@ -37,7 +46,7 @@
       <div class="fade-in-animation">
         <!-- Encabezado con botón de regreso -->
         <div class="d-flex align-items-center mb-4">
-          <a href="../vista/panelAministrador.html" class="text-primary">
+          <a href="../vista/panelAdministrador.php" class="text-primary">
             <i class="bi bi-chevron-left fs-4"></i>
           </a>
           <h1 class="fs-3 fw-bold mb-0 ms-3">Agendas y Citas</h1>
@@ -48,7 +57,7 @@
           <!-- Vista de lista de citas -->
           <div id="citasListView">
             <h2 class="fs-4 fw-semibold mb-4">Listado de Citas</h2>
-            
+
             <!-- Tabla de citas -->
             <div class="table-responsive">
               <table class="table">
@@ -67,7 +76,7 @@
                 </tbody>
               </table>
             </div>
-            
+
             <!-- Botón para agregar nueva cita -->
             <div class="text-center mt-4">
               <button id="addCitaBtn" class="btn btn-primary rounded-pill px-4">
@@ -85,78 +94,14 @@
               </a>
               <h2 class="fs-4 fw-semibold mb-0 ms-3">Agendar Cita</h2>
             </div>
-            
+
             <h3 class="fs-5 fw-semibold mb-4">Servicios Odontológicos</h3>
-            
+
             <!-- Tarjetas de servicios odontológicos -->
             <div class="row g-3">
-              <!-- Servicio 1: Limpieza dental -->
-              <div class="col-md-6">
-                <div class="border rounded p-3 h-100 service-card" data-service="Limpieza dental" data-price="50000">
-                  <div class="d-flex justify-content-between">
-                    <h4 class="fs-5">Limpieza dental</h4>
-                    <span class="text-primary">$50.000</span>
-                  </div>
-                  <p class="text-secondary small mb-0">Eliminación de placa y sarro</p>
-                </div>
-              </div>
-              
-              <!-- Servicio 2: Blanqueamiento dental -->
-              <div class="col-md-6">
-                <div class="border rounded p-3 h-100 service-card" data-service="Blanqueamiento dental" data-price="150000">
-                  <div class="d-flex justify-content-between">
-                    <h4 class="fs-5">Blanqueamiento dental</h4>
-                    <span class="text-primary">$150.000</span>
-                  </div>
-                  <p class="text-secondary small mb-0">Aclaramiento del color de los dientes</p>
-                </div>
-              </div>
-              
-              <!-- Servicio 3: Ortodoncia -->
-              <div class="col-md-6">
-                <div class="border rounded p-3 h-100 service-card" data-service="Ortodoncia" data-price="2500000">
-                  <div class="d-flex justify-content-between">
-                    <h4 class="fs-5">Ortodoncia</h4>
-                    <span class="text-primary">$2.500.000</span>
-                  </div>
-                  <p class="text-secondary small mb-0">Corrección de la posición de los dientes</p>
-                </div>
-              </div>
-              
-              <!-- Servicio 4: Extracción dental -->
-              <div class="col-md-6">
-                <div class="border rounded p-3 h-100 service-card" data-service="Extracción dental" data-price="80000">
-                  <div class="d-flex justify-content-between">
-                    <h4 class="fs-5">Extracción dental</h4>
-                    <span class="text-primary">$80.000</span>
-                  </div>
-                  <p class="text-secondary small mb-0">Remoción de piezas dentales dañadas</p>
-                </div>
-              </div>
-              
-              <!-- Servicio 5: Endodoncia -->
-              <div class="col-md-6">
-                <div class="border rounded p-3 h-100 service-card" data-service="Endodoncia" data-price="200000">
-                  <div class="d-flex justify-content-between">
-                    <h4 class="fs-5">Endodoncia</h4>
-                    <span class="text-primary">$200.000</span>
-                  </div>
-                  <p class="text-secondary small mb-0">Tratamiento de conducto</p>
-                </div>
-              </div>
-              
-              <!-- Servicio 6: Implantes dentales -->
-              <div class="col-md-6">
-                <div class="border rounded p-3 h-100 service-card" data-service="Implantes dentales" data-price="1200000">
-                  <div class="d-flex justify-content-between">
-                    <h4 class="fs-5">Implantes dentales</h4>
-                    <span class="text-primary">$1.200.000</span>
-                  </div>
-                  <p class="text-secondary small mb-0">Reemplazo de dientes perdidos</p>
-                </div>
-              </div>
+
             </div>
-            
+
             <!-- Botones de navegación -->
             <div class="d-flex justify-content-between mt-4">
               <button id="cancelServiceBtn" class="btn btn-light rounded-pill px-4">Cancelar</button>
@@ -175,9 +120,9 @@
               </a>
               <h2 class="fs-4 fw-semibold mb-0 ms-3">Agendar Cita</h2>
             </div>
-            
+
             <h3 class="fs-5 fw-semibold mb-3">Seleccione Fecha y Hora</h3>
-            
+
             <!-- Selección de fecha -->
             <div class="mb-4">
               <p class="mb-2">Seleccione una fecha:</p>
@@ -185,7 +130,7 @@
                 <!-- Las opciones de fecha se generarán dinámicamente -->
               </div>
             </div>
-            
+
             <!-- Selección de hora -->
             <div class="mb-4">
               <p class="mb-2">Seleccione una hora:</p>
@@ -193,7 +138,7 @@
                 <!-- Las opciones de hora se generarán dinámicamente -->
               </div>
             </div>
-            
+
             <!-- Botones de navegación -->
             <div class="d-flex justify-content-between mt-4">
               <button id="backToServiceBtnBottom" class="btn btn-light rounded-pill px-4">
@@ -210,8 +155,8 @@
 
   <!-- Importación de scripts de Bootstrap y personalizados -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-  <!-- <script src="../js/common.js"></script> -->
-  <script src="../js/agendar.js"></script>
-    
+  <script src="../controlador/adminAgendarCita_Controlador.js"></script>
+
 </body>
+
 </html>

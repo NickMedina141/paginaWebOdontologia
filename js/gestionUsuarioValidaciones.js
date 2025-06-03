@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   const cedulaInput = document.getElementById('documento');
   const editCedulaInput = document.getElementById('editCedula');
+  const telefonoInput = document.getElementById('editTelefono');
 
   const camposTexto = [
     { id: 'editNombre', nombre: 'Nombre' },
@@ -12,22 +13,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const cedulaRegex = /^\d{10}$/;
   const textoRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
 
-  function mostrarError(mensaje) {
-    const noti = document.getElementById('notification');
-    noti.innerText = mensaje;
-    noti.classList.add('show');
-
-    setTimeout(() => {
-      noti.classList.remove('show');
-    }, 3000);
-  }
-
-  // Validación de cédula de búsqueda
+  // Validación de cédula para búsqueda
   document.getElementById('searchForm').addEventListener('submit', (e) => {
     const cedula = cedulaInput.value.trim();
     if (!cedulaRegex.test(cedula)) {
       e.preventDefault();
-      mostrarError('La cédula debe contener exactamente 10 dígitos numéricos.');
+      // mostrarError('La cédula debe contener exactamente 10 dígitos numéricos.');
     }
   });
 
@@ -36,9 +27,17 @@ document.addEventListener('DOMContentLoaded', () => {
   if (confirmarBtn) {
     confirmarBtn.addEventListener('click', (e) => {
       const cedula = editCedulaInput.value.trim();
+      const telefono = telefonoInput.value.trim();
+
       if (!cedulaRegex.test(cedula)) {
         e.preventDefault();
         mostrarError('La cédula debe contener exactamente 10 dígitos numéricos.');
+        return;
+      }
+
+      if (!cedulaRegex.test(telefono)) {
+        e.preventDefault();
+        mostrarError('El teléfono debe contener exactamente 10 dígitos numéricos.');
         return;
       }
 
@@ -52,4 +51,20 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+  // Impedir entrada de letras en campos numéricos
+  [cedulaInput, editCedulaInput, telefonoInput].forEach(input => {
+    input.setAttribute('maxlength', '10');
+    input.addEventListener('input', () => {
+      input.value = input.value.replace(/\D/g, '').slice(0, 10);
+    });
+  });
+
+  // Impedir caracteres no permitidos en campos de texto
+  camposTexto.forEach(campo => {
+    const input = document.getElementById(campo.id);
+    input.addEventListener('input', () => {
+      input.value = input.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
+    });
+  });
 });

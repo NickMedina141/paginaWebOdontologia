@@ -1,3 +1,16 @@
+<?php
+session_start();
+if (isset($_SESSION['email'])) {
+    if ($_SESSION['rol'] != "0") {
+        header("Location: ../index2.php");
+        exit; // Muy recomendable para detener la ejecución del script
+    }
+} else {
+    header("Location: ../index2.php");
+    exit; // Muy recomendable para detener la ejecución del script
+}
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -7,37 +20,16 @@
     <title>Gestión de Usuarios - Clínica Dental</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-    <!-- <link rel="stylesheet" href="../css/common.css"> -->
-    <!-- <link rel="stylesheet" href="../css/admin-gestion-usuarios.css"> -->
+
     <link rel="stylesheet" href="../css/styleGestionUsuario.css">
     <link rel="icon" href="../img/logo-odontologia ICO.ico">
 
 </head>
-<style>
-    #notification {
-      display: none;
-      position: fixed;
-      top: 20px;
-      right: 10%;
-      background-color: #ffffff;
-      color: #000000;
-      padding: 15px 20px;
-      border-radius: 5px;
-      border: solid 1px red;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-      z-index: 1000;
-      opacity: 0;
-      transition: opacity 0.5s ease;
-    }
-    #notification.show {
-      display: block;
-      opacity: 1;
-    }
-  </style>
 </head>
+
 <body>
 
-<div id="notification"></div>
+    <div id="notification"></div>
 
     <div class="toast-container position-fixed top-0 end-0 p-3">
         <div id="notificationToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
@@ -50,13 +42,12 @@
     </div>
 
     <div class="min-vh-100">
-        
 
-        <!-- Main Content -->
+
         <main class="container py-4 position-relative">
             <div class="fade-in-animation">
                 <div class="d-flex align-items-center mb-4">
-                    <a href="panelAministrador.html" class="me-3 text-primary">
+                    <a href="../vista/panelAdministrador.php" class="me-3 text-primary">
                         <i class="bi bi-chevron-left fs-4"></i>
                     </a>
                     <h1 class="fs-3 fw-bold mb-0">Gestión de Usuarios</h1>
@@ -69,8 +60,8 @@
                                 <div class="col-sm-8">
                                     <label for="documento" class="form-label small fw-medium">Número de
                                         documento</label>
-                                    <input type="number" class="form-control border-primary-subtle"
-                                        id="documento" placeholder="Ingrese el número de documento">
+                                    <input type="text" id="documento" maxlength="10" inputmode="numeric" pattern="\d*" class="form-control"
+                                        placeholder="Ingrese el numero de documento del paciente">
                                 </div>
                                 <div class="col-sm-4 d-flex align-items-end">
                                     <button type="submit" id="searchButton"
@@ -130,37 +121,37 @@
                                     <div class="row g-3">
                                         <div class="col-sm-6">
                                             <label for="editNombre" class="form-label small fw-medium">Nombre:</label>
-                                            <input type="text" class="form-control" id="editNombre">
+                                            <input type="text" class="form-control" id="editNombre" required>
                                         </div>
                                         <div class="col-sm-6">
                                             <label for="editApellidos"
                                                 class="form-label small fw-medium">Apellidos:</label>
-                                            <input type="text" class="form-control" id="editApellidos">
+                                            <input type="text" class="form-control" id="editApellidos" required>
                                         </div>
                                         <div class="col-sm-6">
                                             <label for="editCedula" class="form-label small fw-medium">Cédula:</label>
-                                            <input type="text" class="form-control" id="editCedula">
+                                            <input type="text" class="form-control" id="editCedula" required>
                                         </div>
                                         <div class="col-sm-6">
                                             <label for="editEmail" class="form-label small fw-medium">Email:</label>
-                                            <input type="email" class="form-control" id="editEmail">
+                                            <input type="email" class="form-control" id="editEmail" required>
                                         </div>
                                         <div class="col-sm-6">
                                             <label for="editTelefono"
                                                 class="form-label small fw-medium">Teléfono:</label>
-                                            <input type="text" class="form-control" id="editTelefono">
+                                            <input type="text" class="form-control" id="editTelefono" required>
                                         </div>
                                         <div class="col-sm-6">
                                             <label for="editSexo" class="form-label small fw-medium">Sexo:</label>
-                                            <input type="text" class="form-control" id="editSexo">
+                                            <input type="text" class="form-control" id="editSexo" required>
                                         </div>
                                         <div class="col-sm-6">
                                             <label for="editEdad" class="form-label small fw-medium">Edad:</label>
-                                            <input type="datetime-local" class="form-control" id="editEdad">
+                                            <input type="datetime-local" class="form-control" id="editEdad" required>
                                         </div>
                                         <div class="col-sm-6">
                                             <label for="editRol" class="form-label small fw-medium">Rol:</label>
-                                            <input type="text" class="form-control" id="editRol">
+                                            <input type="text" class="form-control" id="editRol" required>
                                         </div>
                                     </div>
                                 </div>
@@ -173,8 +164,9 @@
                                                 <button id="updateButton"
                                                     class="btn btn-primary rounded-pill">Actualizar</button>
                                             </div>
-                                            <div class="col-6"> <button  style="display: none;"id="deleteButton"
-                                                    class="btn btn-danger rounded-pill">Eliminar</button>
+                                            <div class="col-6">
+                                                <button style="display: none;" id="confirmButton" class="btn btn-primary rounded-pill">
+                                                    Confirmar</button>
                                             </div>
                                         </div>
                                     </div>
@@ -182,10 +174,7 @@
                                 <div id="editButtons" class="col-6">
                                     <div class="d-flex flex-column flex-sm-row gap-3">
                                         <div class="row">
-                                            <div class="col-6">
-                                                <button id="confirmButton" class="btn btn-primary rounded-pill">
-                                                Confirmar</button>     
-                                            </div>
+
                                             <div class="col-6"> <button id="cancelButton"
                                                     class="btn btn-secondary rounded-pill">Cancelar</button>
                                             </div>
@@ -200,15 +189,10 @@
             </div>
         </main>
     </div>
-    
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- <script src="js/common.js"></script>
-  <script src="js/admin-gestion-usuarios.js"></script>
-  <script src="../model/user.js"></script>
-  <script src="../controller/user-controller.js"></script> -->
     <script src="../js/gestionUsuario.js"></script>
-    <!-- <script src="../controlador/gestionUsuario_Controlador"></script> -->
-     <script src="../js/gestionUsuarioValidaciones.js"></script>
+    <script src="../js/gestionUsuarioValidaciones.js"></script>
 </body>
 
 </html>

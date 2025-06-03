@@ -3,9 +3,7 @@ require_once("../php/conexion.php");
 require '../phpMailer/PHPMailer-master/PHPMailer-master/src/PHPMailer.php';
 require '../phpMailer/PHPMailer-master/PHPMailer-master/src/SMTP.php';
 require '../phpMailer/PHPMailer-master/PHPMailer-master/src/Exception.php';
-// require 'phpMailer/PHPMailer-master/src/PHPMailer.php';
-// require 'phpMailer/PHPMailer-master/src/SMTP.php';
-// require 'phpMailer/PHPMailer-master/src/Exception.php';
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -23,7 +21,7 @@ class Cuenta
 
     public function verificarCuenta($correo)
     {
-        
+
         $consulta = "SELECT * FROM usuarios where correo = ?";
         $stmt = $this->conexion->prepare($consulta);
         $stmt->bind_param("s", $correo);
@@ -55,11 +53,8 @@ class Cuenta
         $mail->Subject = 'recupere su contraseña';
         $mail->isHTML(true); // Habilitar HTML
 
-        // $mail->Body = "Haz clic en el siguiente enlace para crear tu contraseña: $link";
-        // $mail->Body = "Haz clic en el siguiente enlace para crear tu contraseña:";
-        // $link = "http://localhost/PLATAFORMA EN LÍNEA PARA LA ACCESIBILIDAD Y GESTIÓN DE CITAS DE “DIANA CAROLINA ODONTOLOGÍA”/correoPrueba.php?email=" . urlencode($correo);
+
         $link = "http://localhost/CITAS/modelo/recuperarPassword.php?email=" . urlencode($correo);
-   // $link = "http://localhost/PLATAFORMA EN LÍNEA PARA LA ACCESIBILIDAD Y GESTIÓN DE CITAS DE “DIANA CARO/crear_contrasena.php?email=" . urlencode($correo);
         $mail->Body = "<div style='font-family: Arial, sans-serif; background: #f8f9fa; color: #000000; line-height: 1.6; 
             max-width: 600px; margin: auto; border: solid 2px #333; border-radius: 50px;  padding: 15px;'>
             <h1 style='color: #2980b9; text-align: center;'>Recuperación de Contraseña</h1>

@@ -10,8 +10,8 @@ class Horario{
         $db = new Conexion();
         $this->conexion = $db->conectar();
     }
-
-
+    
+    //Funcion para subir un horario 
     public function subirHorario($datos){
         $dia = $datos["dia_semana"] ?? null;
         $hora_inicio = $datos["hora_inicio"] ?? null;
@@ -21,7 +21,7 @@ class Horario{
 
         if(!$dia || $estado === null || !$fecha){
         return ["success"=> false, "message"=>"Datos incompletos: falta dia_semana, estado o fecha"];
-}
+        }
 
         if(!$dia || !$estado === null || ($estado === 0 && (!$hora_inicio || !$hora_fin))){
             return ["success"=> false, "message"=>"Datos incompletos"];
@@ -35,7 +35,6 @@ class Horario{
                 $hora_fin = "00:00:00";
             }
         }
-
         
         if($estado === 0){
             $validar = "SELECT COUNT(*) as count FROM horarios Where fecha = ? AND
@@ -58,8 +57,6 @@ class Horario{
             }
         }
 
-
-
         $sql = "INSERT INTO horarios (dia_semana, hora_inicio, hora_fin, estado, fecha) VALUES (?,?,?,?,?)";
         $stmt =$this->conexion->prepare($sql);
         if(!$stmt){
@@ -74,8 +71,6 @@ class Horario{
             return ["success"=> false, "message"=> "Error al ejecutar". $this->conexion->error];
             
         }
-        
-
     }
 }
 

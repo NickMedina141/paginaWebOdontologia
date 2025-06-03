@@ -10,9 +10,7 @@ if($_SERVER["REQUEST_METHOD"]== "POST"){
     if($cuenta->verificarCuenta($correo)){
 
     }
-    // if()
 }
-
 
 function enviarCorreo($correo){
 

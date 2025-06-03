@@ -2,7 +2,6 @@
 session_start();
 require_once('../modelo/registroPaciente.php');
 
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $cedula = intval(trim($_POST['cedula']));
     $nombres = trim($_POST['nombre']);
@@ -10,16 +9,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $correo = trim($_POST['email']);
     //manera 1
     $sexo = trim($_POST['sexo']);
-    if($sexo == "Masculino"){
+    if($sexo == "Masculino" || $sexo == "masculino"){
         $sexo = true;
     }
-    else if ($sexo == "Femenino"){
+    else if ($sexo == "Femenino" || $sexo == "femenino"){
         $sexo = false;
     }
     //manera 2
-    $sexo = ($sexo == "Masculino") ? 1: 0;
+    $sexo = ($sexo == "Masculino" || $sexo == "masculino") ? 1: 0;
     $telefono = intval(trim($_POST['telefono']));
-    $edad = str_replace("T"," ",$_POST["date"]); // REVISAR
+    $edad = str_replace("T"," ",$_POST["date"]); 
     $password = trim($_POST['password']);
     $encriptada = password_hash($password, PASSWORD_DEFAULT);
 
@@ -27,16 +26,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if($paciente->existenciaPaciente($cedula)){
         $_SESSION["cedula"] = $cedula;
-        // echo "<script>window.location.href = '../vista/panelPaciente.html?cedula={$cedula}';</script>";
-        exit();
-        // header("Location: ../vista/panelPaciente.html");
+        echo "<script>window.location.href = '../vista/panelPaciente.php?cedula={$cedula}';</script>";
         exit();
     }else{
         
         if($paciente->registrarPaciente($cedula,$nombres, $apellidos,$sexo,$edad,$telefono)){
             if($paciente->registrarUsuario($cedula,$correo,$encriptada,"paciente")){
-                // enviarCorreo($correo);
-                header("Location: ../index.html");
+                header("Location: ../index2.php");
                 exit();
                 } else{
                 echo"Error";
@@ -50,29 +46,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 }
-
-// function enviarCorreo($correo) {
-//     $mail = new PHPMailer;
-//     $mail->isSMTP();
-//     $mail->Host = 'smtp.gmail.com'; // Usa tu SMTP
-//     $mail->SMTPAuth = true;
-//     $mail->Username = 'dianaOdontologia@gmai.com';
-//     $mail->Password = '';
-//     $mail->SMTPSecure = 'tls';
-//     $mail->Port = 587;
-
-//     $mail->setFrom('dianaOdontologia@gmai.com', 'Diana Odontologia');
-//     $mail->addAddress($correo);
-//     $mail->Subject = 'Cree su contraseña';
-//     // $mail->Body = "Haz clic en el siguiente enlace para crear tu contraseña: $link";
-//     // $mail->Body = "Haz clic en el siguiente enlace para crear tu contraseña:";
-//     $link = "http://localhost/PLATAFORMA%20EN%20L%C3%8DNEA%20PARA%20LA%20ACCESIBILIDAD%20Y%20GESTI%C3%93N%20DE%20CITAS%20DE%20%E2%80%9CDIANA%20CAROLINA%20ODONTOLOG%C3%8DA%E2%80%9D/modelo/crear_contrasena.php?email=" . urlencode($correo);
-
-//     // $link = "http://localhost/PLATAFORMA EN LÍNEA PARA LA ACCESIBILIDAD Y GESTIÓN DE CITAS DE “DIANA CARO/crear_contrasena.php?email=" . urlencode($correo);
-//     $mail->Body = "Haz clic en el siguiente enlace para crear tu contraseña: $link";
-
-//     if (!$mail->send()) {
-//         echo "Error al enviar correo: " . $mail->ErrorInfo;
-//         echo "no funciono";
-//     }
-// }

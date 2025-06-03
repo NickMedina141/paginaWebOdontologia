@@ -12,8 +12,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
     $paciente = new Paciente();
 
+    //Funcion para llamar al modelo de subir Historial Clinico y luego redirigir a la vista de subir Historial
     if($paciente->subirHistorial($cedula,$padecimientos,$tratamientos,$medicamentos,$alergias,$antecedentes)){
-        header("Location: ../vista/administradorSubidaHistorial.html");
+        header("Location: ../vista/administradorSubidaHistorial.php");
     }
 
 }

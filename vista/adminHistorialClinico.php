@@ -1,3 +1,16 @@
+<?php
+session_start();
+if (isset($_SESSION['email'])) {
+  if ($_SESSION['rol'] == "2") {
+    header("Location: ../index2.php");
+    exit; // Muy recomendable para detener la ejecución del script
+  }
+} else {
+  header("Location: ../index2.php");
+  exit; // Muy recomendable para detener la ejecución del script
+}
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -29,11 +42,10 @@
       </div>
     </div>
 
-    <!-- Main Content -->
     <main class="container py-4 position-relative">
       <div class="fade-in-animation">
         <div class="d-flex align-items-center mb-4">
-          <a href="../vista/adminBusquedaClinica.html" class="me-3 text-primary">
+          <a href="../vista/adminBusquedaClinica.php" class="me-3 text-primary">
             <i class="bi bi-chevron-left fs-4"></i>
           </a>
           <h1 class="fs-3 fw-bold mb-0">Historial Clínico</h1>
@@ -81,7 +93,7 @@
 
               <div class="d-flex flex-column flex-sm-row gap-3 pt-3">
                 <button type="submit" class="btn btn-primary rounded-pill flex-grow-1">Confirmar</button>
-                <a href="../vista/adminBusquedaClinica.html" class="btn btn-secondary rounded-pill flex-grow-1">Cancelar</a>
+                <a href="../vista/adminBusquedaClinica.php" class="btn btn-secondary rounded-pill flex-grow-1">Cancelar</a>
               </div>
             </form>
           </div>
@@ -91,10 +103,6 @@
   </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
   <script src="../controlador/adminHistorialClinico_Controlador.js"></script>
-  <!-- <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      const clinicalRecordController = new ClinicalRecordController();
-    });
-  </script> -->
+  <script src="../js/historialClinicoValidaciones.js"></script>
 </body>
 </html>

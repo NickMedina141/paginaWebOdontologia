@@ -15,7 +15,6 @@ document.addEventListener('DOMContentLoaded', function () {
   const toastHeader = document.getElementById('toastHeader');
   const toastMessage = document.getElementById('toastMessage');
 
-  // Sample months
   const months = [
     { id: 1, name: "Enero" },
     { id: 2, name: "Febrero" },
@@ -31,36 +30,13 @@ document.addEventListener('DOMContentLoaded', function () {
     { id: 12, name: "Diciembre" },
   ];
 
-  //revisar aca
-  // Sample reports
-  //   let reports = [
-  //     {
-  //       id: 1,
-  //       id_reporte: "REP-2023-01",
-  //       fecha_creacion: "2023-01-15",
-  //       mes: "Enero 2023",
-  //     },
-  //     {
-  //       id: 2,
-  //       id_reporte: "REP-2023-02",
-  //       fecha_creacion: "2023-02-15",
-  //       mes: "Febrero 2023",
-  //     },
-  //     {
-  //       id: 3,
-  //       id_reporte: "REP-2023-03",
-  //       fecha_creacion: "2023-03-15",
-  //       mes: "Marzo 2023",
-  //     },
-  //   ];
-
   let selectedMonth = null;
 
-  // Initialize the page
+  // Inicializar la pagina
   renderReports();
   renderMonths();
 
-  // Add Report button click
+  // Añadir reporte
   addReportBtn.addEventListener('click', function () {
     reportsListView.style.display = 'none';
     addReportView.style.display = 'block';
@@ -69,62 +45,23 @@ document.addEventListener('DOMContentLoaded', function () {
     renderMonths();
   });
 
-  // Cancel Add button click
+  //Evento del boton cancelar
   cancelAddBtn.addEventListener('click', function () {
     reportsListView.style.display = 'block';
     addReportView.style.display = 'none';
     pageTitle.textContent = 'Reportes';
   });
 
-  // Confirm Add button click
+  // Confirmar clic en el botón Agregar
   confirmAddBtn.addEventListener('click', function () {
     if (!selectedMonth) {
       showNotification('Por favor seleccione un mes', 'error');
       return;
     }
-
-      subirReporte(selectedMonth);
-
-    // const selectedMonthObj = months.find(m => m.id === selectedMonth);
-    // const currentYear = new Date().getFullYear();
-    // const monthName = `${selectedMonthObj?.name} ${currentYear}`;
-
-    // // Generate report ID
-    // const monthStr = selectedMonth < 10 ? `0${selectedMonth}` : `${selectedMonth}`;
-    // const reportId = `REP-${currentYear}-${monthStr}`;
-
-    // // Check if report already exists
-    // const reportExists = reports.some(r => r.id_reporte === reportId);
-    // if (reportExists) {
-    //   showNotification(`Ya existe un reporte para ${monthName}`, 'error');
-    //   return;
-    // }
-
-    // // Create new report
-    // const newReport = {
-    //   id: Date.now(),
-    //   id_reporte: reportId,
-    //   fecha_creacion: new Date().toISOString().split('T')[0],
-    //   mes: monthName,
-    // };
-
-    // reports.push(newReport);
-
-    // // Store in localStorage
-    // localStorage.setItem('reports', JSON.stringify(reports));
-
-    // showNotification('Reporte creado correctamente', 'success');
-
-    // // Switch back to list view
-    // setTimeout(() => {
-    //   reportsListView.style.display = 'block';
-    //   addReportView.style.display = 'none';
-    //   pageTitle.textContent = 'Reportes';
-    //   renderReports();
-    // }, 1500);
+    subirReporte(selectedMonth);
   });
 
-  // Helper function to render months
+
   let reports = [];
   function renderReports() {
     fetch("../modelo/reportesModelo.php", {
@@ -135,8 +72,7 @@ document.addEventListener('DOMContentLoaded', function () {
       .then(data => {
         if (data.success) {
           const reportes = data.data;
-          reports = data.data; // Assuming data.data contains the reports array
-          console.log(reportes);
+          reports = data.data; 
           reportsTableBody.innerHTML = '';
 
           reportes.forEach(reporte => {
@@ -161,13 +97,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
             reportsTableBody.appendChild(row);
           });
-          // Add event listeners to download and delete buttons
+          // Evento de escucha del boton para descargar
           document.querySelectorAll('.download-btn').forEach(btn => {
             btn.addEventListener('click', function () {
-              const idReporteStr = this.getAttribute('data-id'); 
-              const idReporte = parseInt(idReporteStr, 10); 
+              const idReporteStr = this.getAttribute('data-id');
+              const idReporte = parseInt(idReporteStr, 10);
               const report = reports.find(r => r.id_reporte === idReporte);
-              console.log("Report:", report); // quitar despues
               if (!report) {
                 showNotification('Reporte no encontrado', 'error');
                 return;
@@ -181,15 +116,8 @@ document.addEventListener('DOMContentLoaded', function () {
           document.querySelectorAll('.delete-btn').forEach(btn => {
             btn.addEventListener('click', function () {
               const id = parseInt(this.getAttribute('data-id'));
-              console.log("ID del reporte a eliminar:", id); // quitar despues
               eliminarReporte(id);
-              // reports = reports.filter(r => r.id !== id);
               renderReports();
-
-              // Update localStorage
-              // localStorage.setItem('reports', JSON.stringify(reports));
-
-              // showNotification('Reporte eliminado correctamente', 'success');
             });
           });
 
@@ -204,8 +132,6 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   async function descargarReporte(mes, fecha_creacion) {
-
-    console.log("LLego a descargarReporte con mes:", mes, "y fecha_creacion:", fecha_creacion); // quitar despues
 
     const mesesMap = {
       "enero": "01",
@@ -225,11 +151,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const mesNum = mesesMap[mes.toLowerCase()];
     const mesFormateado = `${year}-${mesNum}`;
 
-    console.log("Year:", year); // quitar despues
-    console.log("Mes:", mes); // quitar despues
-    console.log("Mes Num:", mesNum); // quitar despues
-    console.log("Mes Formateado:", mesFormateado); // quitar despues
-
     if (!mesNum) {
       showNotification('Mes no válido', 'error');
       return;
@@ -242,10 +163,7 @@ document.addEventListener('DOMContentLoaded', function () {
         body: JSON.stringify({ accion: 'obtenerCitas', mes: mesFormateado, fecha_creacion: fecha_creacion })
       });
 
-
-      // const data = await respuesta.json();
       const data = JSON.parse(await respuesta.text());
-      console.log("Data obtenida:", data); // quitar despues
       if (!data.success) {
         showNotification('Error al obtener citas para el reporte', 'error');
         return;
@@ -258,7 +176,7 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
       }
 
-      // Aquí generas el Excel usando SheetJS (XLSX) o similar
+      // Aquí se genera el Excel usando SheetJS (XLSX) o similar
       generarExcel(citas, mes, fecha_creacion);
     } catch (error) {
       console.error('Error al obtener citas:', error);
@@ -316,13 +234,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
       monthsGrid.appendChild(col);
 
-      // Add click event
+      //Evento escucha de click
       const card = col.querySelector('.card');
       card.addEventListener('click', function () {
         const id = parseInt(this.getAttribute('data-id'));
         selectedMonth = id;
 
-        // Update UI to show selection
         document.querySelectorAll('#monthsGrid .card').forEach(c => {
           c.classList.remove('border-primary', 'bg-primary', 'bg-opacity-10');
           c.classList.add('border-light-subtle');
@@ -334,7 +251,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  function subirReporte(selectedMonth){
+  function subirReporte(selectedMonth) {
 
     const mesesMap = {
       "1": "enero",
@@ -352,8 +269,6 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     selectedMonth = mesesMap[selectedMonth];
-    console.log("Subiendo reporte para el mes:", selectedMonth); // quitar despues
-
     const fecha_creacion = new Date().toISOString().split('T')[0];
     fetch("../modelo/reportesModelo.php", {
       method: 'POST',
@@ -375,7 +290,7 @@ document.addEventListener('DOMContentLoaded', function () {
         console.error('Error al subir el reporte:', error);
         showNotification('Error al subir el reporte', 'error');
       });
-    
+
   }
 
   function eliminarReporte(id_reporte) {
@@ -399,7 +314,7 @@ document.addEventListener('DOMContentLoaded', function () {
       });
   }
 
-  // Helper function to show notifications
+  //Notificaciones
   function showNotification(message, type) {
     if (type === 'success') {
       toastHeader.classList.remove('bg-danger', 'text-white');

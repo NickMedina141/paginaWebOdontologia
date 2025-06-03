@@ -1,7 +1,8 @@
-<?php 
+<?php
 include_once("../php/conexion.php");
 header("Content-Type: application/json");
-class Servicios{
+class Servicios
+{
     private $conexion;
 
     public function __construct()
@@ -10,120 +11,100 @@ class Servicios{
         $this->conexion = $db->conectar();
     }
 
-    public function obtenerServicios(){
+    //Funcion para obtener todos los servicios de la tabla servicios
+    public function obtenerServicios()
+    {
         $sql = "SELECT id_servicios, nombre, descripcion, costo FROM servicios";
         $resultado = $this->conexion->query($sql);
 
-        if(!$resultado){
+        if (!$resultado) {
             http_response_code(400);
-            echo json_encode(["error"=> "Error en la consulta". $this->conexion->error]);
+            echo json_encode(["error" => "Error en la consulta" . $this->conexion->error]);
             exit;
         }
 
         $servicios = [];
-        while($fila = $resultado->fetch_assoc()){
+        while ($fila = $resultado->fetch_assoc()) {
             $servicios[] = $fila;
         }
         return $servicios;
     }
 
-    public function cargarServicios($nombre,$descripcion,$costo){
+    //Funcion para cargar un servicio en el sistema
+    public function cargarServicios($nombre, $descripcion, $costo)
+    {
         $sql = "INSERT INTO servicios (nombre, descripcion, costo) VALUES (?,?,?)";
         $stmt = $this->conexion->prepare($sql);
-        $stmt->bind_param("ssi",$nombre,$descripcion,$costo);
+        $stmt->bind_param("ssi", $nombre, $descripcion, $costo);
 
-        if($stmt->execute()){
+        if ($stmt->execute()) {
             echo "Se ha registrado correctamente al servicio";
             return true;
-        }
-        else{
+        } else {
             return false;
         }
     }
 
-    public function eliminarServicios($id){
+    //Funcion para eliminar un servicio en especifico con su id
+    public function eliminarServicios($id)
+    {
         $sql = "DELETE FROM servicios WHERE id_servicios = ?";
         $stmt = $this->conexion->prepare($sql);
-        $stmt->bind_param("i",$id);
-        if($stmt->execute()){
-            return ["success"=> true, "message" => "Servicio  eliminado correctamente"];
-        }
-        else{
-            return ["success"=> false, "message" => "Error al eliminar el servicio" .$stmt->error];
-
+        $stmt->bind_param("i", $id);
+        if ($stmt->execute()) {
+            return ["success" => true, "message" => "Servicio  eliminado correctamente"];
+        } else {
+            return ["success" => false, "message" => "Error al eliminar el servicio" . $stmt->error];
         }
     }
 
-    public function actualizacionServicios($id,$nombre,$descripcion,$costo){
-        // $sql = "INSERT INTO servicios (nombre, descripcion, costo) VALUES (?,?,?)";
+    //Funcion para actualizar un servicio especifico mediante su id
+    public function actualizacionServicios($id, $nombre, $descripcion, $costo)
+    {
         $sql = "UPDATE servicios SET nombre=?, descripcion=?, costo=? WHERE id_servicios=?";
 
         $stmt = $this->conexion->prepare($sql);
-        $stmt->bind_param("ssii",$nombre,$descripcion,$costo,$id);
+        $stmt->bind_param("ssii", $nombre, $descripcion, $costo, $id);
 
-        if($stmt->execute()){
-            return ["success"=> true, "message" => "Servicio actualizado correctamente"];
-        }
-        else{
-            return ["success"=> false, "message" => "Error al actualizar el servicio" .$stmt->error];
-
+        if ($stmt->execute()) {
+            return ["success" => true, "message" => "Servicio actualizado correctamente"];
+        } else {
+            return ["success" => false, "message" => "Error al actualizar el servicio" . $stmt->error];
         }
     }
 }
 
-$servicio = new Servicios(); 
 
-if($_SERVER["REQUEST_METHOD"]==="POST"){
-    $datos = json_decode(file_get_contents("php://input"),true);
+$servicio = new Servicios();
 
-    if(isset($datos["id"], $datos["nombre"],$datos["descripcion"],$datos["costo"],)){
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $datos = json_decode(file_get_contents("php://input"), true);
+
+    if (isset($datos["id"], $datos["nombre"], $datos["descripcion"], $datos["costo"],)) {
         $id = (int)$datos["id"];
         $nombre = $datos["nombre"];
         $descripcion = $datos["descripcion"];
         $costo = (float)$datos["costo"];
 
-        echo json_encode($servicio->actualizacionServicios($id,$nombre,$descripcion,$costo));
-    }else{
-        echo json_encode(["success"=> true, "message" => "Datos incompletos"]);
-
+        echo json_encode($servicio->actualizacionServicios($id, $nombre, $descripcion, $costo));
+    } else {
+        echo json_encode(["success" => true, "message" => "Datos incompletos"]);
     }
-    // if(isset($datos["nombre"],$datos["descripcion"],$datos["costo"])){
-        
-    //     $nombre = $datos["nombre"];
-    //     $descripcion = $datos["descripcion"];
-    //     $costo = (float)$datos["costo"];
-
-    //     if(isset($datos["id"])){
-    //         $id = (int)$datos["id"];
-    //         echo json_encode($servicio->actualizacionServicios($id,$nombre,$descripcion,$costo));
-    //     }else{
-    //         echo json_encode($servicio->cargarServicios($nombre,$descripcion,$costo));
-    //     }
-    // }else{
-    //     echo json_encode(["success"=> false, "message" => "Datos incompletos"]);
-
-    // }
-    // exit;
 }
 
+if ($_SERVER["REQUEST_METHOD"] === "DELETE") {
+    $datos = json_decode(file_get_contents("php://input"), true);
 
-if($_SERVER["REQUEST_METHOD"]==="DELETE"){
-    $datos = json_decode(file_get_contents("php://input"),true);
-
-    if(isset($datos["id"])){
+    if (isset($datos["id"])) {
         $id = (int)$datos["id"];
         echo json_encode($servicio->eliminarServicios($id));
-    }else{
-        echo json_encode(["success"=> true, "message" => "ID no proporcionado para eliminar"]);
-
+    } else {
+        echo json_encode(["success" => true, "message" => "ID no proporcionado para eliminar"]);
     }
     exit;
 }
 
-if($_SERVER["REQUEST_METHOD"]=== "GET"){
+if ($_SERVER["REQUEST_METHOD"] === "GET") {
     echo json_encode($servicio->obtenerServicios());
     exit;
 }
-
-
-?>

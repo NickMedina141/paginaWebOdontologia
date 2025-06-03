@@ -1,15 +1,29 @@
+<?php
+session_start();
+if (isset($_SESSION['email'])) {
+  if ($_SESSION['rol'] != "1") {
+    header("Location: ../index2.php");
+    exit; // Muy recomendable para detener la ejecución del script
+  }
+} else {
+  header("Location: ../index2.php");
+  exit; // Muy recomendable para detener la ejecución del script
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Panel del Odontologo - Clínica Dental</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="../css/stylePanelAdministrador.css">
-    <link rel="icon" href="../img/logo-odontologia ICO.ico">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="../css/stylePanelAdministrador.css">
+  <link rel="icon" href="../img/logo-odontologia ICO.ico">
 
 </head>
+
 <body>
   <div class="toast-container position-fixed top-0 end-0 p-3">
     <div id="notificationToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
@@ -22,74 +36,54 @@
   </div>
 
   <div class="min-vh-100 bg-white">
-    <!-- Background Logo -->
     <div class="position-absolute w-100 h-100 d-flex align-items-center justify-content-center opacity-10 pointer-events-none">
       <div style="width: 400px; height: 400px;" class="position-relative">
         <img src="../img/logo.png" alt="Dra. Diana Noriega Logo" class="img-fluid">
       </div>
     </div>
 
-    <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
       <div class="container">
-        
+
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-        
+
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav me-auto">
-            <!-- <li class="nav-item">
-              <a class="nav-link d-flex align-items-center" href="../vista/gestionUsuario.html">
-                <i class="bi bi-people me-2"></i>
-                <span>Gestión de usuarios</span>
-              </a>
-            </li> -->
             <li class="nav-item">
-              <a class="nav-link d-flex align-items-center" href="../vista/adminServicios.html">
+              <a class="nav-link d-flex align-items-center" href="../vista/adminServicios.php">
                 <i class="bi bi-database me-2"></i>
                 <span>Servicios</span>
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link d-flex align-items-center" href="../vista/adminAgendarCita.html">
+              <a class="nav-link d-flex align-items-center" href="../vista/adminAgendarCita.php">
                 <i class="bi bi-calendar me-2"></i>
                 <span>Agendas y citas</span>
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link d-flex align-items-center" href="../vista/adminHorarios.html">
+              <a class="nav-link d-flex align-items-center" href="../vista/adminHorarios.php">
                 <i class="bi bi-clock me-2"></i>
                 <span>Horarios</span>
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link d-flex align-items-center" href="../vista/administradorSubidaHistorial.html">
+              <a class="nav-link d-flex align-items-center" href="../vista/administradorSubidaHistorial.php">
                 <i class="bi bi-file-medical me-2"></i>
                 <span>subida Historial clinico</span>
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link d-flex align-items-center" href="../vista/adminBusquedaClinica.html">
+              <a class="nav-link d-flex align-items-center" href="../vista/adminBusquedaClinica.php">
                 <i class="bi bi-search me-2"></i>
                 <span>Búsqueda clínica</span>
               </a>
             </li>
-            <!-- <li class="nav-item">
-              <a class="nav-link d-flex align-items-center" href="../vista/admin_reportes.html">
-                <i class="bi bi-bar-chart me-2"></i>
-                <span>Reportes</span>
-              </a>
-            </li> -->
           </ul>
           <div class="d-flex">
-            <!-- opcion1 -->
-            <!-- <a href="login.html" class="btn btn-sm btn-light bg-white/20 text-white rounded-pill d-flex align-items-center">
-              <i class="bi bi-box-arrow-right me-1"></i>
-              <span>Salir</span>
-            </a> -->
-            <!-- opcion2 -->
-            <a href="../index2.php" class="btn btn-sm btn-light bg-white/20 text-white rounded-pill d-flex align-items-center">
+            <a href="../controlador/cerrarsesion.php" class="btn btn-sm btn-light bg-white/20 text-white rounded-pill d-flex align-items-center">
               <i class="bi bi-box-arrow-right me-1"></i>
               <span>Salir</span>
             </a>
@@ -98,13 +92,11 @@
       </div>
     </nav>
 
-    <!-- Main Content -->
     <main class="container py-4 position-relative">
       <div class="fade-in-animation">
         <h1 class="fs-3 fw-bold mb-4">Panel del Odontologo</h1>
 
         <div class="row g-4 mb-4">
-          <!-- Account Information -->
           <div class="col-md-6">
             <div class="card h-100 bg-light-blue">
               <div class="card-body p-4">
@@ -114,8 +106,7 @@
                 </h2>
                 <div id="userInfo" class="d-flex">
                   <div class=" bg-opacity-20 p-2 rounded-circle me-3">
-                    <!-- <i class="bi bi-person fs-3"></i> -->
-                     <i class="bi bi-person-circle fs-3 text-primary"></i>
+                    <i class="bi bi-person-circle fs-3 text-primary"></i>
                   </div>
                   <div>
                     <div class="row g-2">
@@ -140,7 +131,6 @@
             </div>
           </div>
 
-          <!-- Clinical History -->
           <div class="col-md-6">
             <div class="card h-100 bg-light-blue">
               <div class="card-body p-4">
@@ -177,7 +167,6 @@
           </div>
         </div>
 
-        <!-- Recent Appointments -->
         <div class="card bg-light-blue">
           <div class="card-body p-4">
             <h2 class="fs-4 fw-semibold mb-3 d-flex align-items-center">
@@ -195,30 +184,6 @@
                   </tr>
                 </thead>
                 <tbody id="tablaCitasRecientes">
-                  <!-- <tr>
-                    <td>Limpieza dental</td>
-                    <td>15/04/2023</td>
-                    <td>10:30 AM</td>
-                    <td><span class="badge bg-primary rounded-pill">Programada</span></td>
-                  </tr>
-                  <tr>
-                    <td>Revisión de ortodoncia</td>
-                    <td>28/04/2023</td>
-                    <td>15:00 PM</td>
-                    <td><span class="badge bg-primary rounded-pill">Programada</span></td>
-                  </tr>
-                  <tr>
-                    <td>Extracción de muela</td>
-                    <td>05/05/2023</td>
-                    <td>11:15 AM</td>
-                    <td><span class="badge bg-primary rounded-pill">Programada</span></td>
-                  </tr>
-                  <tr>
-                    <td>Blanqueamiento dental</td>
-                    <td>12/05/2023</td>
-                    <td>16:45 PM</td>
-                    <td><span class="badge bg-warning text-dark rounded-pill">Pendiente</span></td>
-                  </tr> -->
                 </tbody>
               </table>
             </div>
@@ -229,9 +194,8 @@
   </div>
 
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-  <!-- <script src="../js/panelAdministrador.js"></script> -->
-   <script src="../controlador/panelOdontologo_Controlador.js"></script>
-   sce
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <script src="../controlador/panelOdontologo_Controlador.js"></script>
 </body>
+
 </html>

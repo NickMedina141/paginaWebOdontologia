@@ -1,5 +1,19 @@
+<?php
+session_start();
+if (isset($_SESSION['email'])) {
+  if ($_SESSION['rol'] == "2") {
+    header("Location: ../index2.php");
+    exit; // Muy recomendable para detener la ejecución del script
+  }
+} else {
+  header("Location: ../index2.php");
+  exit; // Muy recomendable para detener la ejecución del script
+}
+?>
+
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,30 +21,10 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
   <link rel="stylesheet" href="../css/styleBusquedaClinica.css">
-    <link rel="icon" href="../img/logo-odontologia ICO.ico">
+  <link rel="icon" href="../img/logo-odontologia ICO.ico">
 
 </head>
-<style>
-    #notification {
-      display: none;
-      position: fixed;
-      top: 20px;
-      right: 10%;
-      background-color: #ffffff;
-      color: #000000;
-      padding: 15px 20px;
-      border-radius: 5px;
-      border: solid 1px red;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-      z-index: 1000;
-      opacity: 0;
-      transition: opacity 0.5s ease;
-    }
-    #notification.show {
-      display: block;
-      opacity: 1;
-    }
-  </style>
+
 <body>
 
   <div id="notification"></div>
@@ -53,11 +47,10 @@
       </div>
     </div>
 
-    <!-- Main Content -->
     <main class="container py-4 position-relative">
       <div class="fade-in-animation">
         <div class="d-flex align-items-center mb-4">
-          <a href="../vista/panelAministrador.html" class="me-3 text-primary">
+          <a href="../vista/panelAdministrador.php" class="me-3 text-primary">
             <i class="bi bi-chevron-left fs-4"></i>
           </a>
           <h1 class="fs-3 fw-bold mb-0">Búsqueda Clínica</h1>
@@ -69,8 +62,8 @@
               <div class="row g-3">
                 <div class="col-sm-8">
                   <label for="documento" class="form-label small fw-medium">Número de documento</label>
-                  <input type="number" class="form-control bg-white border-primary-subtle" id="documento" 
-                    placeholder="Ingrese el número de documento">
+                  <input type="text" id="documento" maxlength="10" inputmode="numeric" pattern="\d*" class="form-control"
+                    placeholder="Ingrese el numero de documento del paciente">
                 </div>
                 <div class="col-sm-4 d-flex align-items-end">
                   <button type="submit" class="btn btn-primary rounded-pill w-100 d-flex align-items-center justify-content-center">
@@ -115,17 +108,13 @@
                 </div>
               </div>
 
-              <!-- <div class="d-flex flex-column flex-sm-row gap-3">
-                <a href="../vista/adminHistorialClinico.html" class="btn btn-primary rounded-pill">Historial Clínico</a>
-                <a href="../vista/adminProcedimientos.html" class="btn btn-primary rounded-pill">Procedimientos</a>
-              </div> -->
+
               <div class="d-flex flex-column flex-sm-row gap-3">
-                <a href="#" class="btn btn-primary rounded-pill btn-historial" data-cedula = "">Historial Clínico</a>
-                <a href="#" class="btn btn-primary rounded-pill btn-procedimientos" data-cedula="">Procedimientos</a>
+                <a href="../vista/adminHistorialClinico.php?cedula=<?php echo $_SESSION['cedula']; ?>" class="btn btn-primary rounded-pill btn-historial" data-cedula="">Historial Clínico</a>
+                <a href="../vista/adminProcedimientos.php?cedula=<?php echo $_SESSION['cedula']; ?>" class="btn btn-primary rounded-pill btn-procedimientos" data-cedula="">Procedimientos</a>
               </div>
             </div>
             <div id="respuestas"></div>
-            <!-- revisar si quitar o no -->
           </div>
         </div>
       </div>
@@ -133,8 +122,8 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-  <!-- <script src="../modelo/busquedaClinicaModelo.js"></script>  -->
-  <!-- Revisar el archivo de busquedaClinica en modelo, preguntar a ilder mi old brother -->
   <script src="../js/busquedaClinica.js"></script>
+  <script src="../js/busquedaClinicaValidaciones.js"></script>
 </body>
+
 </html>

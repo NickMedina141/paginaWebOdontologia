@@ -11,7 +11,7 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
 
     $servicios = new Servicios();
     if($servicios->cargarServicios($nombre,$descripcion,$costo)){
-        header("Location: ../vista/adminServicios.html");
+        header("Location: ../vista/adminServicios.php");
     }
 }
 
